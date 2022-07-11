@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable-v24/degradado.xml" value="0.18" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable-v24/spinnercolors.xml" value="0.2203125" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/cornerimageview.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/degradadofondo.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/degradadofondocircle.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/degradadofondoindex.xml" value="0.1" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/degradadofondoorange.xml" value="0.1" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_baseline_admin_panel_settings_24.xml" value="0.157" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.15" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_baseline_bubble_chart_24.xml" value="0.1" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_baseline_supervised_user_circle_24.xml" value="0.157" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_bubbles.xml" value="0.1" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.15" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/lineaabajo.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/lineaabajobutton.xml" value="0.1535" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/marcolistview.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/marcologin.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/marcoredondo.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/navigation_view_color_set.xml" value="0.1585" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/radio_flat_regular.xml" value="0.15" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/radio_flat_selected.xml" value="0.15" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/drawable/radio_flat_selector.xml" value="0.15" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main2_extencion_categoria.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main2_extencion_producto.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_detalles.xml" value="0.22" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_login.xml" value="0.22" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_perfil_user.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_registro_categorias.xml" value="0.25" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_registro_negocio.xml" value="0.33" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_registro_productos.xml" value="0.33" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_registro_usuario.xml" value="0.22" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/activity_main_super_user.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/adaptadorspinner.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/adaptadorspinnercolors.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/adaptadorspinnertelefono.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/categoriaadapter.xml" value="0.19895833333333332" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/categorialista.xml" value="0.25" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/clienteslista.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/comentariolista.xml" value="0.2746212121212121" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/filtros.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/fragment_dashboard.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/fragment_monsheep.xml" value="0.25" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/fragment_notifications.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/fragment_perfil.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/fragment_productos.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/item_text_view.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/menu_contextual_proveedor.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/postlista.xml" value="0.25" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/productolista.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/layout/text_row_item.xml" value="0.291015625" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/menu/main_activity_index.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/menu/menu_contextual_1.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/menu/menu_contextual_producto.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/menu/overflow_setting.xml" value="0.2" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1535" />
+        <entry key="..\:/Users/camendiola/AndroidStudioProjects/MonsheepPractica/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activitys.MainActivityRegistroProductos">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="10dp"
+        tools:ignore="SpeakableTextPresentCheck">
+
+        <LinearLayout
+            android:id="@+id/ll_prod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="11dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_foto_prod"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="onSelectImageClick"
+                app:srcCompat="@drawable/galeria"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:textColorHint="#DDFF3D00">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_nombre_pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:drawableEnd="@drawable/ic_baseline_shopping_cart_checkout_24"
+                    android:ems="10"
+                    android:hint="Nombre Producto"
+                    android:inputType="textShortMessage"
+                    android:minHeight="48dp"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:textColorHint="#DDFF3D00">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_precio_menudeo_pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:drawableEnd="@drawable/ic_baseline_description_24"
+                    android:ems="10"
+                    android:hint="Descripcion Producto"
+                    android:inputType="textLongMessage|textMultiLine"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/spinnercolors"
+                android:gravity="center"
+                android:text="Categoria"
+                android:textColor="#000000"
+                android:textStyle="normal" />
+
+            <Spinner
+                android:id="@+id/sp_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:backgroundTint="#FD0000"
+                android:textAlignment="center"
+                tools:ignore="RtlCompat,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:textColorHint="#DDFF3D00">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_costo_pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:drawableEnd="@drawable/ic_baseline_attach_money_24"
+                    android:ems="10"
+                    android:hint="Costo $"
+                    android:inputType="numberSigned|numberDecimal|phone"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:textColorHint="#DDFF3D00">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_precio_mayoreo_pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:drawableEnd="@drawable/ic_baseline_attach_money_24"
+                    android:ems="10"
+                    android:hint="Precio Mayoreo"
+                    android:inputType="numberSigned|numberDecimal|phone"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:textColorHint="#DDFF3D00">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_marca_pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_margin="5dp"
+                    android:drawableEnd="@drawable/ic_baseline_description_24"
+                    android:ems="10"
+                    android:hint="Marca"
+                    android:inputType="textShortMessage"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp">
+
+                    <TextView
+                        android:id="@+id/textViewx8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:text="Color dominante: "
+                        android:textColor="#FF5722"
+                        android:textStyle="normal|bold" />
+
+                    <Spinner
+                        android:id="@+id/sp_colores"
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="#FF0101"
+                        android:textAlignment="center"
+                        tools:ignore="RtlCompat,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:text="Unidad de Medida"
+                        android:textColor="#FF5722"
+                        android:textStyle="normal|bold" />
+
+                    <Spinner
+                        android:id="@+id/sp_unidad_medida_pro"
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="#FF0101"
+                        android:textAlignment="center"
+                        tools:ignore="RtlCompat,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="5dp"
+                        android:text="Disponible en almacen"
+                        android:textColor="#FF5722"
+                        android:textStyle="normal|bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:textColorHint="#DDFF3D00">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_cant_min_pro"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left"
+                            android:layout_margin="5dp"
+                            android:drawableEnd="@drawable/ic_baseline_store_mall_directory_24"
+                            android:ems="10"
+                            android:hint="Disponible en almacen"
+                            android:inputType="number|numberDecimal|phone"
+                            android:text="1"
+                            android:textSize="16sp"
+                            tools:ignore="TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <Button
+                android:id="@+id/btn_gd_pro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:text="Guardar"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

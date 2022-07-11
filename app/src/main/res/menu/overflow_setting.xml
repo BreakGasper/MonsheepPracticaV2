@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Productos"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_dash"
+        android:enabled="true"
+        android:icon="@drawable/catego"
+        android:title="Categorias"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_producto"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_assured_workload_24"
+        android:title="Negocio"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_cliente"
+        android:enabled="true"
+        android:icon="@drawable/seguidores"
+        android:title="Usuarios"
+        android:visible="true"
+        app:showAsAction="always" />
+
+</menu>
