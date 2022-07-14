@@ -11,13 +11,14 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.monsheeppractica.GetterAndSetter.Carrito;
 import com.example.monsheeppractica.GetterAndSetter.Categorias;
 import com.example.monsheeppractica.GetterAndSetter.Clientes;
 import com.example.monsheeppractica.GetterAndSetter.Comentario;
+import com.example.monsheeppractica.GetterAndSetter.Domicilios;
 import com.example.monsheeppractica.GetterAndSetter.Negocio;
 import com.example.monsheeppractica.GetterAndSetter.Productos;
 import com.example.monsheeppractica.GetterAndSetter.Seguidores;
-import com.example.monsheeppractica.adaptadores.AdaptadorComentario;
 import com.example.monsheeppractica.sqlite.sqlite;
 
 import java.util.ArrayList;
@@ -275,6 +276,9 @@ public class ConsultarTabla {
             if (clave.equals("like")) {
                 c = db.rawQuery("select * from negocio where status=='Activo' and idNegocio==" + Integer.parseInt(idUser) + "", null);
             }
+            if (clave.equals("pedido")) {
+                c = db.rawQuery("select * from negocio where idNegocio==" + Integer.parseInt(idUser) + "", null);
+            }
 //
 
             if (c.moveToFirst()) {
@@ -296,5 +300,69 @@ public class ConsultarTabla {
         return ArrayList;
     }
 
+    public ArrayList CarritoConsulta(ArrayList ArrayList, String clave, String idUser, String idProducto, String unidad) {
+
+        sqlite bh = new sqlite
+                (context, "carrito", null, 1);
+        if (bh != null) {
+            SQLiteDatabase db = bh.getReadableDatabase();
+            Cursor c =  db.rawQuery("select * from carrito", null);;
+
+            if (clave.equals("count")) {
+                c = db.rawQuery("select * from carrito", null);
+            }
+            if (clave.equals("counts")) {
+                c = db.rawQuery("select * from carrito  where   idUser=='"+idUser+"' ", null);
+                //  where status='Activo'  and  idUser=='"+idUser+"'Count DistinctDistinct idProducto,Productos,cantidad,precio,status
+            }if (clave.equals("Validate")) {
+                c = db.rawQuery("select * from carrito  where  idUser=='"+idUser+"' and idProducto=='"+idProducto+"'", null);
+                //  where status='Activo'  and  idUser=='"+idUser+"'Count DistinctDistinct idProducto,Productos,cantidad,precio
+            }
+
+
+            if (c.moveToFirst()) {
+
+                do {
+
+                    ArrayList.add(new Carrito(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),c.getString(7),c.getString(8),c.getString(9),c.getString(10)));
+
+                } while (c.moveToNext());
+
+            }
+        }
+
+        return ArrayList;
+    }
+
+    /******************************Domicilio*********************/
+    public ArrayList DomicilioConsulta(ArrayList ArrayList, String clave, int idCliente, String idUser) {
+        sqlite bh = new sqlite
+                (context, "domicilios", null, 1);
+        if (bh != null) {
+
+            SQLiteDatabase db = bh.getReadableDatabase();
+            Cursor c = null;
+            if (clave.equals("all")) {
+                c = db.rawQuery("select * from domicilios order by NombreCompleto asc", null);
+            } else  if (clave.equals("user")) {
+                c = db.rawQuery("select * from domicilios where idUser='" + idCliente+"'", null);
+            }
+
+//
+            if (c.moveToFirst()) {
+
+                do {
+
+                    ArrayList.add(new Domicilios(c.getInt(0), c.getString(1), c.getString(2),
+                            c.getString(3), c.getString(4), c.getString(5), c.getString(6),
+                            c.getString(7), c.getString(8), c.getString(9)));
+
+                } while (c.moveToNext());
+
+            }
+        }
+
+        return ArrayList;
+    }
 
 }

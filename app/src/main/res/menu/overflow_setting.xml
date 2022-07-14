@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_home"
+        android:id="@+id/itemcontinuar"
         android:enabled="true"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="Productos"

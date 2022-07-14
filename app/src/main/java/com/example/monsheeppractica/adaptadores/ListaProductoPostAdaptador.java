@@ -5,8 +5,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.text.Spannable;
@@ -19,23 +17,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.monsheeppractica.GetterAndSetter.Productos;
 import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.mytools.CornerImage;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -84,7 +73,7 @@ public class ListaProductoPostAdaptador  {
                 holder.tvEscrip = (TextView)view.findViewById(R.id.tvDEsci);
                 holder.tvPrecio = (TextView) view.findViewById(R.id.tvPrice);
                 holder.ivCora=(ImageView)view.findViewById(R.id.ivCorazon);
-                holder.ivPerfil=( CircleImageView)view.findViewById(R.id.ivPerfil);
+                holder.ivPerfil=( CircleImageView)view.findViewById(R.id.ivNegocioPerfil);
                 holder.ivPost=(ImageView)view.findViewById(R.id.ivpost);
                 holder.tvProvedor=(TextView)view.findViewById(R.id.tvProvedor);
                 holder.linearLayout=(LinearLayout) view.findViewById(R.id.linear);

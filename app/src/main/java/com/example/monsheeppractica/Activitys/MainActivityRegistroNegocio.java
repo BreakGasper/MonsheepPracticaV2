@@ -83,7 +83,13 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_registro_negocio);
+        try {
+            getSupportActionBar().hide();
+            getActionBar().hide();
+        } catch (Exception e) {
 
+            //  Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_SHORT).show();
+        }
         SharedPreferences preferences = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
         idUser = preferences.getString("idusers", "et_pass.getText().toString()");
         NombreUser = preferences.getString("NombreUser", "et_pass.getText().toString()");

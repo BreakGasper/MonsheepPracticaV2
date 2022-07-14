@@ -28,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.monsheeppractica.Activitys.MainActivityRegistroProductos;
 import com.example.monsheeppractica.GetterAndSetter.Categorias;
@@ -61,18 +62,22 @@ public class HomeFragment extends Fragment {
     String costo;
     String[] Unidad_de_medida = {"Menor a Mayor", "Mayor a Menor", "Menos de $50", "Mayor a $50"};
     SearchView txt_buscar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     public static ArrayList<Categorias> categoriasArrayList = new ArrayList<>();
     public static ArrayList<Productos> productoArrayList = new ArrayList<>();
 
-    String NombreUser, idUser, idFotoUser,tipoUser;
+    String NombreUser, idUser, idFotoUser, tipoUser;
     String clave = "";
     View root;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-         root = binding.getRoot();
+        root = binding.getRoot();
         txt_buscar = binding.txtBuscar;
+        swipeRefreshLayout = binding.swipeRefreshLayout;
 
         txt_buscar.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
@@ -97,17 +102,16 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
 
-                if (s.isEmpty()){
+                if (s.isEmpty()) {
                     binding.dailyWeeklyButtonView.setVisibility(View.VISIBLE);
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
-                }else{
+                } else {
                     binding.dailyWeeklyButtonView.setVisibility(View.GONE);
                     spfiltro.setVisibility(View.GONE);
                     sp_categoria.setVisibility(View.GONE);
-
                 }
-                    BuscarProductoCat(s, "like");
+                BuscarProductoCat(s, "like");
 
                 return false;
             }
@@ -125,11 +129,11 @@ public class HomeFragment extends Fragment {
 //        NombreUser = getActivity().getIntent().getStringExtra("NombreUser");
 //        idFotoUser = getActivity().getIntent().getStringExtra("idFotoUser");
 
-        SharedPreferences preferences =getActivity().getSharedPreferences("usuarios", Context.MODE_PRIVATE);
-        idUser = preferences.getString("idusers","et_pass.getText().toString()");
-        NombreUser = preferences.getString("NombreUser","et_pass.getText().toString()");
-        idFotoUser = preferences.getString("idFotoUser","et_pass.getText().toString()");
-        tipoUser =   preferences.getString("tipouser","et_pass.getText().toString()");
+        SharedPreferences preferences = getActivity().getSharedPreferences("usuarios", Context.MODE_PRIVATE);
+        idUser = preferences.getString("idusers", "et_pass.getText().toString()");
+        NombreUser = preferences.getString("NombreUser", "et_pass.getText().toString()");
+        idFotoUser = preferences.getString("idFotoUser", "et_pass.getText().toString()");
+        tipoUser = preferences.getString("tipouser", "et_pass.getText().toString()");
 
         //Referencia a la tabla imagenes categorias
         db = new DatabaseHandler(getActivity());
@@ -172,7 +176,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Esto se ejecuta cada vez que se realiza el gesto
+                BuscarProductoCat(nombre_categoria, "all");
+                swipeRefreshLayout.setRefreshing(false);
 
+            }
+        });
         return root;
     }
 
@@ -441,8 +453,9 @@ public class HomeFragment extends Fragment {
 
         ConsultarTabla consultarTabla = new ConsultarTabla(getActivity());
 
-        lv_catego.setAdapter(new ListaCategoriaAdapter(getActivity(), consultarTabla.CategoriaConsulta(categoriasArrayList, "search",
-                palabra, null, null)));
+        lv_catego.setAdapter(new ListaCategoriaAdapter(getActivity(),
+                consultarTabla.CategoriaConsulta(categoriasArrayList, "search",
+                        palabra, null, null)));
         lv_catego.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -473,7 +486,7 @@ public class HomeFragment extends Fragment {
         binding.rVcatego.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.rVcatego.setAdapter(new AdaptadorPost(consultarTabla.PostConsulta
                 (productoArrayList, clave, word, word, "null"),
-                getActivity(), idUser, NombreUser, idFotoUser));
+                getActivity(), idUser, NombreUser, idFotoUser,getActivity()));
 
 
     }
@@ -485,7 +498,7 @@ public class HomeFragment extends Fragment {
         binding.rVcatego.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         binding.rVcatego.setAdapter(new AdaptadorPost(consultarTabla.PostConsulta
                 (productoArrayList, clave, "", word, "null"),
-                context, idUser, NombreUser, idFotoUser));
+                context, idUser, NombreUser, idFotoUser,getActivity()));
     }
 
     public void spinner_categoria() {
@@ -519,20 +532,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void aTrabajar() {
-        new CountDownTimer(1000, 1000) {
-            @Override
-            public void onTick(long l) {
-                // Toast.makeText(getContext(), "aa", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFinish() {
-                //  Toast.makeText(getContext(), "bb", Toast.LENGTH_SHORT).show();
-                // listaporcategoria();
-            }
-        }.start();
-    }
 
     @Override
     public void onDestroyView() {

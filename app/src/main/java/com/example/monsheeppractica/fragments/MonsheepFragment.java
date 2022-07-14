@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Html;
 import android.view.ContextMenu;
@@ -95,7 +96,7 @@ public class MonsheepFragment extends Fragment {
     public static String producto, costo, ventaMenudeo, ventaMayoreo,
             marca, color_p, unidadMedida, categoria_nombre, id_categoria,
             Id_Foto, status, busqueda_index, cantidadMinima, NombreUser, idUser, idFotoUser;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     public static int id_producto;
     RecyclerView Rv;
     //    public static ListView lv_producto;
@@ -117,6 +118,7 @@ public class MonsheepFragment extends Fragment {
 
         binding = FragmentMonsheepBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        swipeRefreshLayout = binding.swipeRefreshLayout;
         idUser = getActivity().getIntent().getStringExtra("idusers");
         NombreUser = getActivity().getIntent().getStringExtra("NombreUser");
         idFotoUser = getActivity().getIntent().getStringExtra("idFotoUser");
@@ -133,6 +135,7 @@ public class MonsheepFragment extends Fragment {
         registerForContextMenu(binding.rV);
 
         listaproducto();
+        RollPage();
 
         Bundle datos = getArguments();
         // Toast.makeText(getContext(), "bde: "+datos, Toast.LENGTH_SHORT).show();
@@ -152,10 +155,22 @@ public class MonsheepFragment extends Fragment {
 
             } else {
                 listaproducto();
+                RollPage();
             }
 
 
         }
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Esto se ejecuta cada vez que se realiza el gesto
+                listaproducto();
+                RollPage();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
         return root;
     }
 
@@ -187,6 +202,7 @@ public class MonsheepFragment extends Fragment {
                 //Mensaje 2
                 Modificar_Eliminacion();
                 listaproducto();
+                RollPage();
 
             }
         });
@@ -203,8 +219,12 @@ public class MonsheepFragment extends Fragment {
     // llenar lista por producto
     public void listaproducto() {
         ExtraerDatos("all", null, null, null);
-        mRollViewPager.setAdapter(new TestNormalAdapter(getActivity(), productoArrayList));
 
+
+    }
+
+    public void RollPage(){
+        mRollViewPager.setAdapter(new TestNormalAdapter(getActivity(), productoArrayList));
     }
 
     /*  public void ListarObtenerDatos(){
@@ -250,7 +270,7 @@ public class MonsheepFragment extends Fragment {
         //  AdaptadorPost customAdapter = new AdaptadorPost(productoArrayList, getActivity(),);
         binding.rV.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rV.setAdapter(new AdaptadorPost(consultarTabla.PostConsulta(productoArrayList, clave, palabra, categoria, unidad),
-                getActivity(), idUser, NombreUser, idFotoUser));
+                getActivity(), idUser, NombreUser, idFotoUser,getActivity()));
 
     }
 }

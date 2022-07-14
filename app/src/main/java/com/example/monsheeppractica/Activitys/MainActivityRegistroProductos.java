@@ -300,7 +300,6 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
 
     public void spinner_edit() {
 
-
         sp_categoria.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, catego_sp_edit));
 
 
@@ -575,7 +574,7 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
             intent.putExtra("NombreUser", NombreUser);
             intent.putExtra("idFotoUser", idFotoUser);
             startActivity(intent);
-
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
             finish();
         } else {
             Toast.makeText(this, "Agrega una foto", Toast.LENGTH_SHORT).show();
@@ -748,5 +747,11 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
         });
         alerta.show();
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
 
+    }
 }

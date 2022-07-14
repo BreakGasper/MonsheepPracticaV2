@@ -166,7 +166,7 @@ public class MainActivityPerfilUser extends AppCompatActivity {
 
      //  consultarTabla.ClientesConsulta(listaNegocio,"user",Integer.parseInt(idPerfil),"");
 
-        tvDestails.setText("Contacto: +"+lista.get(0).getLada()+" "+lista.get(0).getTeléfono());
+        tvDestails.setText("Contacto: "+lista.get(0).getLada()+" "+lista.get(0).getTeléfono());
         ivCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

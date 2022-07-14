@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivPerfil"
+                android:id="@+id/ivNegocioPerfil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="top"
@@ -128,13 +128,15 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animation_view"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/marcoredondo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/click" />
+                    app:lottie_rawRes="@raw/addcar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

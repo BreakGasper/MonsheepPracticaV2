@@ -167,6 +167,7 @@ public class MainActivityLogin extends AppCompatActivity {
                 intent.putExtra("idFotoUser", clientesArrayList.get(0).getId_Foto());
                 // Toast.makeText(this, ""+clientesArrayList.get(0).getId_Foto()+clientesArrayList.get(0).getNombre()+clientesArrayList.get(0).getId_cliente(), Toast.LENGTH_SHORT).show();
                 startActivity(intent);
+                overridePendingTransition(R.anim.left_in, R.anim.left_out);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("idusers", "" + clientesArrayList.get(0).getId_cliente());
                 editor.putString("NombreUser", clientesArrayList.get(0).getNombre() + "" + clientesArrayList.get(0).getApellidoMaterno().trim());
@@ -175,9 +176,6 @@ public class MainActivityLogin extends AppCompatActivity {
                 editor.putString("user", cel);
                 editor.putString("tipouser", "" + clientesArrayList.get(0).getTipoCompra());
                 editor.putString("idNegocio", "" + clientesArrayList.get(0).getIdNegocio());
-//                editor.putString("idFotoNegocio",""+clientesArrayList.get(0).getidf());
-
-
                 editor.commit();
             } else {
                 Toast.makeText(this, "Tu numero de telefono o contraseña no coinciden" + clientesArrayList.size(), Toast.LENGTH_SHORT).show();

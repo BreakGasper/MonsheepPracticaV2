@@ -22,7 +22,16 @@
         android:theme="@style/Theme.MonsheepPractica"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivitySuperUser"
+            android:name=".Activitys.MainActivityTicket"
+            android:exported="false" />
+        <activity
+            android:name=".Activitys.MainActivityAPagar"
+            android:exported="false" />
+        <activity
+            android:name=".Activitys.MainActivityCarrito"
+            android:exported="false" />
+        <activity
+            android:name=".Activitys.MainActivitySuperUser"
             android:exported="false" />
         <activity
             android:name=".Activitys.MainActivityRegistroNegocio"

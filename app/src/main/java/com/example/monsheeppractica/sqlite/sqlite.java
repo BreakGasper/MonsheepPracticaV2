@@ -36,9 +36,12 @@ public class sqlite extends SQLiteOpenHelper {
             ", Estado text, Lada text, Teléfono text, status text, TipoTelefono text ," +
             " Id_Foto text,Contra text,Correo text,Descripcion text)";
 
-//    public String Pedido = "CREATE TABLE Pedido (idPedido int primary key, idUser text, Productos text," +
-//            "fecha text,hora text,idprovedores text, status text)";//Pendiente
 
+     public String  Carrito = "CREATE TABLE carrito (idticket int primary key, idUser text, Productos text," +
+             "cantidad text,precio text,idproveedor text, status text,idProducto text, fecha text, hora text,cantidadDisponible text,solicitud text,idDomicilio text)";
+
+    public String  Domicilios = "Create table domicilios(idDomicilio int primary key, idUser text,NombreCompleto text,Domicilio text, Colonia text,Vecindario text,Celular text," +
+            "CodigoPostal text, numero text, municipio text);";
 
 
     public sqlite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -55,7 +58,8 @@ public class sqlite extends SQLiteOpenHelper {
         db.execSQL(Comentario);
         db.execSQL(Seguir);
         db.execSQL(Negocio);
-//        db.execSQL(Pedido);
+        db.execSQL(Carrito);
+        db.execSQL(Domicilios);
     }
 
     @Override

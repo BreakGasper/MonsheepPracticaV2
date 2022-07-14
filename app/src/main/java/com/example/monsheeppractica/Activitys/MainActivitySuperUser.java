@@ -1,4 +1,4 @@
-package com.example.monsheeppractica;
+package com.example.monsheeppractica.Activitys;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +20,7 @@ import com.example.monsheeppractica.GetterAndSetter.Categorias;
 import com.example.monsheeppractica.GetterAndSetter.Clientes;
 import com.example.monsheeppractica.GetterAndSetter.Negocio;
 import com.example.monsheeppractica.GetterAndSetter.Productos;
+import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.adaptadores.ListaCategoriaAdapter;
 import com.example.monsheeppractica.adaptadores.ListaClientesAdaptador;
 import com.example.monsheeppractica.adaptadores.ListaUsuarioAdaptador;

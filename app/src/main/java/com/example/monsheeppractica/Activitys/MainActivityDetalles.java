@@ -130,6 +130,7 @@ public class MainActivityDetalles extends AppCompatActivity {
                 intent.putExtra("idPerfil",""+idPerfil);
                 intent.putExtra("namePerfil",""+namePerfil);
                 startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.right_out);
             }
         });
         ivFotoProvedor.setOnClickListener(view -> {
@@ -138,6 +139,8 @@ public class MainActivityDetalles extends AppCompatActivity {
             intent.putExtra("idPerfil",""+idPerfil);
             intent.putExtra("namePerfil",""+namePerfil);
             startActivity(intent);
+            overridePendingTransition(R.anim.right_in, R.anim.right_out);
+
         });
 
         etComentario.setOnTouchListener(new View.OnTouchListener() {
@@ -223,6 +226,7 @@ public class MainActivityDetalles extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
     }
 
     public void InsertarComentario(){
@@ -248,6 +252,7 @@ public class MainActivityDetalles extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(this, ""+e, Toast.LENGTH_SHORT).show();
         }
-
     }
+
+
 }

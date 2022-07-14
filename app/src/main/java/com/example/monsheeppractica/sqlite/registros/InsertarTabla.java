@@ -269,4 +269,71 @@ public class InsertarTabla {
 
     }
 
+    public void RegistrarCarritoTicket(Context context, int idticket, String idUser, String Productos,
+                                    String cantidad, String precio, String idproveedor, String status,
+                                    String idProducto,String fecha, String hora,String cantidadDisponible) {
+
+        db = new DatabaseHandler(context);
+        sqlite usuarios = new sqlite(context, "carrito", null, 1);
+        SQLiteDatabase BaseDeDatos = usuarios.getWritableDatabase();
+
+        ContentValues registro = new ContentValues();
+
+        //View.generateViewId();
+
+        registro.put("idticket", idticket);
+        registro.put("idUser", idUser);
+        registro.put("Productos", Productos);
+        registro.put("cantidad", cantidad);
+        registro.put("precio", precio);
+        registro.put("idproveedor", idproveedor);
+        registro.put("idProducto", idProducto);
+        registro.put("status",status);
+        registro.put("fecha", "0");
+        registro.put("hora","0");
+        registro.put("cantidadDisponible",cantidadDisponible);
+        registro.put("solicitud","0");
+        registro.put("idDomicilio","0");
+        int n = (int) BaseDeDatos.insert("carrito", null, registro);
+
+        if (n==1  ){
+            Toast.makeText(context, "Registro Exitoso", Toast.LENGTH_SHORT).show();
+        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+        BaseDeDatos.close();
+
+    }
+
+    public void RegistrarDomicilios(Context context, int idDomicilio, String idUser, String NombreCompleto,
+                                       String Domicilio, String Colonia, String Vecindario, String Celular,
+                                       String CodigoPostal,String numero, String municipio) {
+
+        db = new DatabaseHandler(context);
+        sqlite usuarios = new sqlite(context, "domicilios", null, 1);
+        SQLiteDatabase BaseDeDatos = usuarios.getWritableDatabase();
+
+        ContentValues registro = new ContentValues();
+
+        idDomicilio = (int)(Math.random()*10000+1*3+15);//View.generateViewId();
+
+
+        registro.put("idDomicilio", idDomicilio);
+        registro.put("idUser", idUser);
+        registro.put("NombreCompleto", NombreCompleto);
+        registro.put("Domicilio", Domicilio);
+        registro.put("Colonia", Colonia);
+        registro.put("Vecindario", Vecindario);
+        registro.put("Celular", Celular);
+        registro.put("CodigoPostal",CodigoPostal);
+        registro.put("numero", numero);
+        registro.put("municipio",municipio);
+
+        int n = (int) BaseDeDatos.insert("domicilios", null, registro);
+
+        if (n==1  ){
+            Toast.makeText(context, "Registro Exitoso", Toast.LENGTH_SHORT).show();
+        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+      //  BaseDeDatos.close();
+
+    }
+
 }
