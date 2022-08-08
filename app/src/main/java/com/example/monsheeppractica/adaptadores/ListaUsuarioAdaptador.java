@@ -19,6 +19,8 @@ import com.example.monsheeppractica.GetterAndSetter.Clientes;
 import com.example.monsheeppractica.GetterAndSetter.Negocio;
 import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -81,7 +83,9 @@ public class ListaUsuarioAdaptador {
 //                        .load(patha).centerCrop().transform(circleTransform)
 //                        .into(holder.ivClientes);
                 db = new DatabaseHandler(context);
-                holder.ivClientes.setImageBitmap(db.getimage(productos.getId_Foto()));
+                Picasso.get().load(db.getImagen(""+productos.getId_cliente()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.ivClientes);
+
+//                holder.ivClientes.setImageBitmap(db.getimageID(""+productos.getId_cliente()));
             } catch (Exception e) {
                 Toast.makeText(context, "Error url: " + e, Toast.LENGTH_SHORT).show();
             }

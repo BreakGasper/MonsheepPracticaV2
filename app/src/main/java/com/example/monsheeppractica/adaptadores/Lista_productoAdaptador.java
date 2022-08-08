@@ -19,6 +19,8 @@ import com.example.monsheeppractica.GetterAndSetter.Productos;
 import com.example.monsheeppractica.R;
 
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -74,7 +76,9 @@ public class Lista_productoAdaptador {
             }
 
             DatabaseHandler db = new DatabaseHandler(context);
-            holder.ivProducto.setImageBitmap(db.getimage(productos.getId_Foto()));
+            Picasso.get().load(db.getImagen(""+productos.getId_producto()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.ivProducto);
+
+//            holder.ivProducto.setImageBitmap(db.getimageID(""+productos.getId_producto()));
             //asignar los datos correspondientes en la lista
             holder.tvNombre.setText("" + productos.getProducto());
             holder.tvCosto.setText("$" + productos.getCosto());

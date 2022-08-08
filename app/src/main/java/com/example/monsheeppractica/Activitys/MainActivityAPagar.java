@@ -150,30 +150,8 @@ public class MainActivityAPagar extends AppCompatActivity {
     public void ContinuarPedido(View view) {
 
         Ciclo();
-        /*if (!etNombreCompleto.getText().toString().isEmpty()) {
-            if (!etCelular.getText().toString().isEmpty()) {
-                if (!etColonia.getText().toString().isEmpty()) {
-                    if (!etDomicilio.getText().toString().isEmpty()) {
-                        if (!etNumero.getText().toString().isEmpty()) {
-                            if (!etCodigoPostal.getText().toString().isEmpty()) {
-                                if (!etVecindario.getText().toString().isEmpty()) {
-                                    if (cBConfirmoDatos.isChecked() == true) {
 
-                                        InsertarTabla insertarTabla= new InsertarTabla();
-                                        insertarTabla.RegistrarDomicilios(this,0,idUser,etNombreCompleto.getText().toString(),
-                                                etDomicilio.getText().toString(),etColonia.getText().toString(),etVecindario.getText().toString(),
-                                                etCelular.getText().toString(),etCodigoPostal.getText().toString(),etNumero.getText().toString(),
-                                                Municipio);
-                                        Intent intent = new Intent(this, MainActivityTicket.class);
-                                        startActivity(intent);
-                                    } else cBConfirmoDatos.setError("Para continuar debes seleccionar la casilla\nTienes dudas lee terminos y condiciones");
-                                } else etVecindario.setError("Agrega tu vecindario o barrio para hacerte llegar tu pedido");
-                            } else etCodigoPostal.setError("Inserta el codigo postal");
-                        } else etNumero.setError("Introduce tu numero de casa");
-                    } else etDomicilio.setError("Introduce tu calle");
-                } else etColonia.setError("Agrega correctamente tu colonia");
-            } else etCelular.setError("Introduce tu numero de contacto");
-        } else etNombreCompleto.setError("Introduce tu nombre completo");*/
+
     }
 
     boolean esVacio(EditText editText, String msg) {
@@ -232,4 +210,10 @@ public class MainActivityAPagar extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.right_out);
+
+    }
 }

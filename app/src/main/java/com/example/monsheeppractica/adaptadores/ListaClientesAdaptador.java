@@ -21,6 +21,8 @@ import com.example.monsheeppractica.GetterAndSetter.Clientes;
 import com.example.monsheeppractica.GetterAndSetter.Negocio;
 import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -82,13 +84,15 @@ public class ListaClientesAdaptador {
             try {
 
                 db = new DatabaseHandler(context);
-                holder.ivClientes.setImageBitmap(db.getimage(productos.getId_Foto()));
+                Picasso.get().load(db.getImagen(""+productos.getIdNegocio()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.ivClientes);
+
+//                holder.ivClientes.setImageBitmap(db.getimageID(""+productos.getIdNegocio()));
             }catch (Exception e){
                 Toast.makeText(context, "Error url: "+e, Toast.LENGTH_SHORT).show();
             }
             //asignar los datos correspondientes en la lista
-            holder.tvNombre.setText(""+productos.getNombre()+"\n("+productos.getDescripcion()+")");
-            holder.tvTelefono.setText(""+productos.getTipoTelefono()+" +"+productos.getLada()+" "+productos.getTeléfono());
+            holder.tvNombre.setText(""+productos.getNombre());
+            holder.tvTelefono.setText("("+productos.getDescripcion()+")"+"\n\n"+productos.getTipoTelefono()+" "+productos.getLada()+" "+productos.getTeléfono());
             }catch (Exception e) {
                 System.out.println(e);
             }

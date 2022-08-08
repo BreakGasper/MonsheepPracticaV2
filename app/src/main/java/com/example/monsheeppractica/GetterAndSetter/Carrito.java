@@ -2,9 +2,10 @@ package com.example.monsheeppractica.GetterAndSetter;
 
 public class Carrito {
     int idticket;
-    String idUser, Productos, cantidad, precio, idproveedor, status, idProducto, fecha, hora, cantidadDisponible;
+    String idUser, Productos, cantidad, precio, idproveedor, status,
+            idProducto, fecha, hora, cantidadDisponible,solicitud,idDomicilio,Ticket;
 
-    public Carrito(int idticket, String idUser, String productos, String cantidad, String precio, String idproveedor, String status, String idProducto, String fecha, String hora, String cantidadDisponible) {
+    public Carrito(int idticket, String idUser, String productos, String cantidad, String precio, String idproveedor, String status, String idProducto, String fecha, String hora, String cantidadDisponible, String solicitud, String idDomicilio, String ticket) {
         this.idticket = idticket;
         this.idUser = idUser;
         Productos = productos;
@@ -16,6 +17,9 @@ public class Carrito {
         this.fecha = fecha;
         this.hora = hora;
         this.cantidadDisponible = cantidadDisponible;
+        this.solicitud = solicitud;
+        this.idDomicilio = idDomicilio;
+        Ticket = ticket;
     }
 
     public int getIdticket() {
@@ -104,5 +108,29 @@ public class Carrito {
 
     public void setCantidadDisponible(String cantidadDisponible) {
         this.cantidadDisponible = cantidadDisponible;
+    }
+
+    public String getSolicitud() {
+        return solicitud;
+    }
+
+    public void setSolicitud(String solicitud) {
+        this.solicitud = solicitud;
+    }
+
+    public String getIdDomicilio() {
+        return idDomicilio;
+    }
+
+    public void setIdDomicilio(String idDomicilio) {
+        this.idDomicilio = idDomicilio;
+    }
+
+    public String getTicket() {
+        return Ticket;
+    }
+
+    public void setTicket(String ticket) {
+        Ticket = ticket;
     }
 }

@@ -86,7 +86,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
                         android:onClick="openWhatsApp"
-                        app:srcCompat="@drawable/ic_whatsapp" />
+                        app:srcCompat="@drawable/ic_whatsapp"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                 </LinearLayout>
 

@@ -208,7 +208,7 @@ public class ProductosFragment extends Fragment {
 
     public void Modificar_Eliminacion(){
         sqlite admin = new sqlite
-                (getActivity(),"producto", null, 1);
+                (getActivity(),"monsheep", null, 1);
 
         SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
 
@@ -268,7 +268,7 @@ public class ProductosFragment extends Fragment {
     public void listaproducto(){
         clearData();
         sqlite bh = new sqlite
-                (getContext(), "producto", null, 1);
+                (getContext(), "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
@@ -374,7 +374,7 @@ public class ProductosFragment extends Fragment {
     public void Buscar_categoria(String palabra) {
         clearData();
         sqlite bh = new sqlite
-                (getContext(), "producto", null, 1);
+                (getContext(), "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();

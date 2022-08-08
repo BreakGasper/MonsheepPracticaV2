@@ -16,14 +16,19 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.monsheeppractica.MainActivity;
@@ -34,6 +39,12 @@ import com.example.monsheeppractica.sqlite.registros.InsertarTabla;
 import com.example.monsheeppractica.sqlite.sqlite;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivityRegistroCategorias extends AppCompatActivity {
 
@@ -49,7 +60,7 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
     ContentValues registro;
     SQLiteDatabase BaseDeDatos;
     Bitmap bmp;
-    SharedPreferences preferences;
+    String Stimagen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +93,7 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
 
             }else {
                 try {
-                    iv_foto.setImageBitmap(db.getimage(id_foto_extra));
+                    iv_foto.setImageBitmap(db.getimageID(id_foto_extra));
 
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_SHORT).show();
@@ -97,7 +108,17 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
         btn_catgo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btn_catgo.setEnabled(false);
+
                 Validar_datos();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_catgo.setEnabled(true);
+
+                    }
+                }, 2000);
 
             }
         });
@@ -106,7 +127,17 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                iv_foto.setEnabled(false);
+
                 onSelectImageClick(view);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_foto.setEnabled(true);
+
+                    }
+                }, 2000);
 
             }
         });
@@ -157,10 +188,35 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
 
 
-                    iv_foto.setImageURI(result.getUri());
-                    x = getPath(result.getUri());
+                     iv_foto.setImageURI(result.getUri());
+                    x =  ""+ result.getUri();//getPath(result.getUri());
                     num_id=""+(int)(Math.random()*10000+1*3+15);
 
+//                    FileInputStream file = new FileInputStream(x);
+//                    byte[] imgbyte = new byte[file.available()];
+//                    file.read(imgbyte);
+//
+//                    InputStream imageStream = null;
+//                    try {
+//                        imageStream = getContentResolver().openInputStream(
+//                                result.getUri());
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    try {
+//                        bmp = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(),result.getUri());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    // Transformamos la URI de la imagen a inputStream y este a un Bitmap
+//                    bmp = BitmapFactory.decodeStream(imageStream);
+//
+//
+//                    // Ponemos nuestro bitmap en un ImageView que tengamos en la vista
+//                    //ImageView mImg = (ImageView) findViewById(R.id.imagen);
+//                    iv_foto.setImageBitmap(bmp);
 
                     //Toast.makeText(this, "Cropping successful, Sample:" + result.getSampleSize(), Toast.LENGTH_LONG).show();
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -173,6 +229,9 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
 
 
     }
+
+
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -196,7 +255,7 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
     public void lista_query_sin_duplicados(){
 
         sqlite bh = new sqlite
-                (this, "categoria", null, 1);
+                (this, "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
@@ -235,25 +294,54 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                EditarTabla ed= new EditarTabla();
                 try {
                     registro.put("Id_Foto", idFoto.trim());
                     //Registro de imagen en la base de datos
                     if (!idFoto.isEmpty()){
                         if (db.insertimage(x, idFoto, String.valueOf(idCategoria))) {
-                            Toast.makeText(context, "Edicion Exitosa,\nImagen insertada", Toast.LENGTH_SHORT).show();
+                            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
+                            TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                            text.setText("Edicion Exitosa");
+
+                            Toast toast = new Toast(context);
+                            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                            toast.setDuration(Toast.LENGTH_LONG);
+                            toast.setView(viewInput);
+                            toast.show();
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                         }
                     }else {
-                        Toast.makeText(context, "Registro Exitoso,\nNo guardaste ninguna imagen", Toast.LENGTH_SHORT).show();
-                    }
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show(); }
 
                     int cantid = BaseDeDatos.update("categoria", registro, "id_categoria= " + Integer.parseInt(idCategoria), null);
                     BaseDeDatos.close();
                     if ( cantid == 1) {
                         Nose(context);
-                        Toast.makeText(context, "Edicion Exitosa", Toast.LENGTH_SHORT).show();
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show();
 
                     }else {
                         Toast.makeText(context, "Categoria no existe", Toast.LENGTH_SHORT).show();
@@ -275,7 +363,17 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
                     BaseDeDatos.close();
                     if ( cantid == 1) {
                       Nose(context);
-                        Toast.makeText(context, "Edicion Exitosa", Toast.LENGTH_SHORT).show();
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show();
                     }else {
                         Toast.makeText(context, "Categoria no existe", Toast.LENGTH_SHORT).show();
                     }
@@ -320,7 +418,7 @@ public class MainActivityRegistroCategorias extends AppCompatActivity {
     }
 
     private void Registrar() {
-
+//        Stimagen=convertirImgString(bmp);
         InsertarTabla tDatos= new InsertarTabla();
         tDatos.RegistrarCategoria(this,id_catego,catego,descrip,num_id,"Activo","",x);
 

@@ -89,10 +89,10 @@ public class ListaProductoPostAdaptador  {
 
             DatabaseHandler db  = new DatabaseHandler(context);
 
-
-
-            Bitmap originalBitmap =db.getimage(productos.getId_Foto());
-            Bitmap perfilFoto = db.getimage(productos.getIdUser());
+//
+//
+//            Bitmap originalBitmap =db.getimage(productos.getId_Foto());
+//            Bitmap perfilFoto = db.getimageID(productos.getIdUser());
 
             /*
 //            Glide.with(context)

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F1EEEE"
     tools:context=".Activitys.MainActivitySuperUser">
 
     <LinearLayout
@@ -23,12 +24,47 @@
 
         </SearchView>
 
-        <ImageView
-            android:id="@+id/ivRegister"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_baseline_app_registration_24" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/ivRegisterPromo2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/marcolistview"
+                app:srcCompat="@drawable/addphoto" />
+
+            <ImageView
+                android:id="@+id/ivRegisterPromo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/marcolistview"
+                app:srcCompat="@drawable/tiendaajuste" />
+
+            <ImageView
+                android:id="@+id/ivRegister"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/marcolistview"
+                app:srcCompat="@drawable/ic_baseline_app_registration_24" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etPromo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/marcolistview"
+            android:ems="10"
+            android:hint="Escribe una promocion"
+            android:inputType="textPersonName"
+            android:textColorHint="#757575" />
 
         <RadioGroup
             android:id="@+id/daily_weekly_button_view"

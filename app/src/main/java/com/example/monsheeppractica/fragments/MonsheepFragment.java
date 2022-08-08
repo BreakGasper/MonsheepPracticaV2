@@ -9,9 +9,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +35,9 @@ import android.widget.Toast;
 import com.example.monsheeppractica.Activitys.MainActivityRegistroProductos;
 import com.example.monsheeppractica.GetterAndSetter.Productos;
 import com.example.monsheeppractica.Activitys.MainActivityDetalles;
+import com.example.monsheeppractica.GetterAndSetter.Roll;
 import com.example.monsheeppractica.R;
+import com.example.monsheeppractica.WebService.wsEdit;
 import com.example.monsheeppractica.adaptadores.AdaptadorPost;
 import com.example.monsheeppractica.adaptadores.Lista_productoAdaptador;
 import com.example.monsheeppractica.adaptadores.TestNormalAdapter;
@@ -43,6 +48,9 @@ import com.example.monsheeppractica.sqlite.registros.EditarBaja;
 import com.example.monsheeppractica.sqlite.registros.EditarTabla;
 import com.example.monsheeppractica.sqlite.sqlite;
 import com.jude.rollviewpager.RollPagerView;
+import com.jude.rollviewpager.hintview.ColorPointHintView;
+import com.jude.rollviewpager.hintview.IconHintView;
+import com.jude.rollviewpager.hintview.TextHintView;
 
 import java.util.ArrayList;
 
@@ -107,6 +115,7 @@ public class MonsheepFragment extends Fragment {
     DatabaseHandler db;
     AlertDialog.Builder alerta;
     public static ArrayList<Productos> productoArrayList = new ArrayList<>();
+    public static ArrayList<Roll> rollArrayList = new ArrayList<>();
     private RollPagerView mRollViewPager;
 
     @Override
@@ -122,12 +131,13 @@ public class MonsheepFragment extends Fragment {
         idUser = getActivity().getIntent().getStringExtra("idusers");
         NombreUser = getActivity().getIntent().getStringExtra("NombreUser");
         idFotoUser = getActivity().getIntent().getStringExtra("idFotoUser");
-//Evitar el teclado
+        //Evitar el teclado
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
         // Toast.makeText(getActivity(), ""+idUser+NombreUser+idFotoUser, Toast.LENGTH_SHORT).show();
 
         mRollViewPager = binding.rollViewPager;
+
 
         //Referencia a la tabla imagenes categorias
         db = new DatabaseHandler(getActivity());
@@ -223,36 +233,29 @@ public class MonsheepFragment extends Fragment {
 
     }
 
-    public void RollPage(){
-        mRollViewPager.setAdapter(new TestNormalAdapter(getActivity(), productoArrayList));
+    public void RollPage() {
+
+        mRollViewPager.setPlayDelay(5000);
+        // Establecer transparencia
+        mRollViewPager.setAnimationDurtion(500);
+        // Establecer el adaptador
+        // Establecer indicador (en orden)
+        // Imagen del indicador personalizado
+        // Establece el color del indicador de puntos
+        // Establecer indicador de texto
+        // Ocultar indicador
+        // mRollViewPager.setHintView(new IconHintView(getActivity(), R.drawable.mcolorm, R.drawable.mbn));
+        mRollViewPager.setHintView(new ColorPointHintView(getContext(), Color.BLUE, Color.WHITE));
+        //mRollViewPager.setHintView(new TextHintView(getActivity()));
+        //mRollViewPager.setHintView(null);
+        rollArrayList.clear();
+        ConsultarTabla consultarTabla = new ConsultarTabla(getActivity());
+
+        mRollViewPager.setAdapter(new TestNormalAdapter(getActivity(),
+                consultarTabla.RollConsulta(rollArrayList, "roll", "", "", "")));
     }
 
-    /*  public void ListarObtenerDatos(){
 
-          lv_producto.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-              @Override
-              public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                  id_producto = productoArrayList.get(i).getId_producto();//Int
-                  Id_Foto = productoArrayList.get(i).getId_Foto();
-                  categoria_nombre = productoArrayList.get(i).getCategoria_nombre();
-                  costo = productoArrayList.get(i).getCosto();
-                  producto = productoArrayList.get(i).getProducto();
-                  ventaMenudeo = productoArrayList.get(i).getVentaMenudeo();
-                  ventaMayoreo = productoArrayList.get(i).getVentaMayoreo();
-                  marca = productoArrayList.get(i).getMarca();
-                  color_p = productoArrayList.get(i).getColor_p();
-                  unidadMedida = productoArrayList.get(i).getUnidadMedida();
-                  id_categoria = productoArrayList.get(i).getId_categoria();
-                  status = productoArrayList.get(i).getStatus();
-                  cantidadMinima = productoArrayList.get(i).getCantidadMinima();//Int
-                  NombreUser = productoArrayList.get(i).getNombreUser();//Int
-
-                  return false;
-              }
-          });
-
-      }*/
     public void BuscarFiltro(String categoria, String unidad) {
         ExtraerDatos("filtro", null, categoria, unidad);
 
@@ -270,7 +273,7 @@ public class MonsheepFragment extends Fragment {
         //  AdaptadorPost customAdapter = new AdaptadorPost(productoArrayList, getActivity(),);
         binding.rV.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rV.setAdapter(new AdaptadorPost(consultarTabla.PostConsulta(productoArrayList, clave, palabra, categoria, unidad),
-                getActivity(), idUser, NombreUser, idFotoUser,getActivity()));
+                getActivity(), idUser, NombreUser, idFotoUser, getActivity()));
 
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_car_admin"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@drawable/box"
+        android:title="Mis Pedidos"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_pedidos_negocio"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@drawable/tienda"
+        android:title="Pedidos"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_setting_admin"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@drawable/userajuste"
+        android:title="Configuraciones"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_super_admin"
+        android:checkable="true"
+        android:enabled="true"
+        android:icon="@drawable/admin"
+        android:title="Administrador"
+        android:visible="true"
+        app:showAsAction="always" />
+
+</menu>

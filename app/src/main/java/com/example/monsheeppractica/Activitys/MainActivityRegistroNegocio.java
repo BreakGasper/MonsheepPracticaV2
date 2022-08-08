@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.view.View;
@@ -108,7 +109,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
             etColonia = (EditText) findViewById(R.id.etColoniaNegocio);
             etEstado = (EditText) findViewById(R.id.etEstadoNegocio);
             etDescripcion = (EditText) findViewById(R.id.etDescripcionNegocio);
-            etCorreoNegocio = (EditText) findViewById(R.id.etCorreoNegocio);
+            etCorreoNegocio = (EditText) findViewById(R.id.etCorreoEdit);
             etLada = (EditText) findViewById(R.id.etLadaNegocio);
             etTelefono = (EditText) findViewById(R.id.etTelefonoNegocio);
             etContra = (EditText) findViewById(R.id.etContraNegocio);
@@ -176,7 +177,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
 
                 } else {
                     try {
-                        iv_foto.setImageBitmap(db.getimage(Id_Foto_extra));
+                        iv_foto.setImageBitmap(db.getimageID(Id_Foto_extra));
 
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(), "" + e, Toast.LENGTH_SHORT).show();
@@ -195,18 +196,34 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnGuardar.setEnabled(false);
+
                 Validar_datos();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnGuardar.setEnabled(true);
+
+                    }
+                }, 2000);
             }
         });
 
         iv_foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                iv_foto.setEnabled(false);
 
-                //abrirGaleria();
-
-                // Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                 onSelectImageClick(view);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_foto.setEnabled(true);
+
+                    }
+                }, 2000);
 
             }
         });
@@ -286,7 +303,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
 
 
                     iv_foto.setImageURI(result.getUri());
-                    x = getPath(result.getUri());
+                    x =  ""+ result.getUri();//getPath(result.getUri());
                     num_id = "" + (int) (Math.random() * 10000 + 1 * 3 + 15);
 
 
@@ -326,7 +343,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
     public void lista_query_sin_duplicados() {
 
         sqlite bh = new sqlite
-                (this, "negocio", null, 1);
+                (this, "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
@@ -406,7 +423,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
                     TipoCompra, num_id, x, Contra, etCorreoNegocio.getText().toString().trim(), etDescripcion.getText().toString(), idFotoNegocio);
 
             EditarTabla editarTabla = new EditarTabla();
-            editarTabla.EditarUser(this, Integer.parseInt(idUser), String.valueOf(idEditNego));
+            editarTabla.EditarUser(this, Integer.parseInt(idUser), String.valueOf(idEditNego), TipoCompra);
 
             Intent intent = new Intent(this, MainActivityLogin.class);
             startActivity(intent);

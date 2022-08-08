@@ -23,6 +23,7 @@ public class ConversoresAll {
     public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTextSize(textSize);
+//        paint.setStyle(Paint.Style.STROKE);
         paint.setColor(textColor);
         paint.setTextAlign(Paint.Align.LEFT);
         float baseline = -paint.ascent(); // ascent() is negative

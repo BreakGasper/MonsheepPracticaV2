@@ -152,7 +152,8 @@
                     android:id="@+id/etVecindarioPedido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Vecindario/Barrio" />
+                    android:hint="Vecindario/Barrio"
+                    android:inputType="textShortMessage" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox

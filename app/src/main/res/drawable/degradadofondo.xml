@@ -10,9 +10,9 @@
 
     </stroke>
      <gradient
-     android:startColor="#F19A1A"
-      android:centerColor="#E8FF9800"
-     android:endColor="#DF8602"
+     android:startColor="#F1331A"
+      android:centerColor="#E8FF6600"
+     android:endColor="#FF5722"
      android:angle="270" />
      <padding android:left="1dp"
          android:top="1dp"

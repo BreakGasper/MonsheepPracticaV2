@@ -71,10 +71,11 @@
             android:id="@+id/tvComentario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="7dp"
             android:background="@drawable/lineaabajo"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

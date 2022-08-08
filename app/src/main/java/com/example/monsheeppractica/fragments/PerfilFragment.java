@@ -30,6 +30,7 @@ import com.example.monsheeppractica.Activitys.MainActivityRegistroNegocio;
 import com.example.monsheeppractica.Activitys.MainActivityRegistroProductos;
 import com.example.monsheeppractica.GetterAndSetter.Productos;
 import com.example.monsheeppractica.R;
+import com.example.monsheeppractica.WebService.wsEdit;
 import com.example.monsheeppractica.adaptadores.Lista_productoAdaptador;
 import com.example.monsheeppractica.databinding.FragmentPerfilBinding;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
@@ -130,8 +131,7 @@ public class PerfilFragment extends Fragment {
             lv_producto.setVisibility(View.GONE);
             binding.linear.setVisibility(View.VISIBLE);
             binding.tvDescsPer.setText("Hola Bienvenido a MoonSeep");
-            binding.tvDescPerfil2.setText("¿Te gustaria Unirte con nosotros?"
-                   );
+            binding.tvDescPerfil2.setText("¿Te gustaria Unirte con nosotros?");
             binding.tvDescPerfil3.setText( "- Registra tu negocio\n\n" +
                     "- Crea tu catalogo\n\n" +
                     "- Dar a Conocer tu negocio\n\n" +
@@ -314,7 +314,7 @@ public class PerfilFragment extends Fragment {
 
     public void Modificar_Eliminacion(){
         sqlite admin = new sqlite
-                (getActivity(),"producto", null, 1);
+                (getActivity(),"monsheep", null, 1);
 
         SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
 
@@ -355,7 +355,10 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //Mensaje 2
-                Modificar_Eliminacion();
+               // Modificar_Eliminacion();
+                wsEdit edit = new wsEdit(getActivity());
+              //  edit.wsBajaProducto(2);
+                edit.wsEditarTabla("update_bajaProducto.php?id_producto="+5);
                 listaproducto();
 
             }
@@ -408,7 +411,7 @@ public class PerfilFragment extends Fragment {
     public void BuscarFiltro(String categoria, String unidad) {
         clearData();
         sqlite bh = new sqlite
-                (getContext(), "producto", null, 1);
+                (getContext(), "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
@@ -445,7 +448,7 @@ public class PerfilFragment extends Fragment {
     public void Buscar_categoria(String palabra) {
         clearData();
         sqlite bh = new sqlite
-                (getContext(), "producto", null, 1);
+                (getContext(), "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();

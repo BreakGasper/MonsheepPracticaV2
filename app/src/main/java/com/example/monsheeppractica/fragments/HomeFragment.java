@@ -298,7 +298,7 @@ public class HomeFragment extends Fragment {
 
                     iv_ver_foto.setVisibility(View.VISIBLE);
                     //Enviar imagen al imageView
-                    iv_ver_foto.setImageBitmap(db.getimage("" + codigo_imagen));
+                    iv_ver_foto.setImageBitmap(db.getimageID("" + codigo));
                     //Set ImageView alpha to zero
                     iv_ver_foto.setAlpha(0f);
 

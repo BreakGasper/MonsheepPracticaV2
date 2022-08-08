@@ -22,22 +22,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.monsheeppractica.GetterAndSetter.Carrito;
+import com.example.monsheeppractica.MainActivity;
 import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.adaptadores.AdaptadorCarrito;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
 import com.example.monsheeppractica.sqlite.registros.ConsultarTabla;
 import com.example.monsheeppractica.sqlite.registros.EditarTabla;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class MainActivityCarrito extends AppCompatActivity {
-    String  NombreUser, idUser, idFotoUser, tipoUser, idNegocio;
+    String NombreUser, idUser, idFotoUser, tipoUser, idNegocio;
     RecyclerView lv_lista;
     SharedPreferences preferences;
     private SwipeRefreshLayout swipeRefreshLayout;
     ArrayList<Carrito> Array = new ArrayList<>();
     Button btnProcederAPagar;
     TextView tvSubtotal;
+    int cadena = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class MainActivityCarrito extends AppCompatActivity {
 
             //  Toast.makeText(getApplicationContext(), ""+e, Toast.LENGTH_SHORT).show();
         }
-       // getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        // getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         preferences = getSharedPreferences("usuarios", Context.MODE_PRIVATE);
         idUser = preferences.getString("idusers", "et_pass.getText().toString()");
         NombreUser = preferences.getString("NombreUser", "et_pass.getText().toString()");
@@ -58,13 +62,16 @@ public class MainActivityCarrito extends AppCompatActivity {
         tipoUser = preferences.getString("tipouser", "et_pass.getText().toString()");
         idNegocio = preferences.getString("idNegocio", "et_pass.getText().toString()");
 
-        swipeRefreshLayout =  findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         lv_lista = findViewById(R.id.rvListarCar);
         tvSubtotal = findViewById(R.id.tvSubTotal);
         btnProcederAPagar = findViewById(R.id.btnProcederAPagar);
 
         sumaDeDatos();
         ListarPedido();
+        if (cadena == 0) {
+            btnProcederAPagar.setEnabled(false);
+        }
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,43 +89,43 @@ public class MainActivityCarrito extends AppCompatActivity {
 
     }
 
-    public void sumaDeDatos(){
+    public void sumaDeDatos() {
         ConsultarTabla consultarTabla = new ConsultarTabla(this);
-        consultarTabla.CarritoConsulta(Array,"counts",idUser,"","");
+        consultarTabla.CarritoConsulta(Array, "counts", idUser, "", "");
 
-        String[] arreglo = new String[ Array.size()];
-        int sum=0;
-        int cadena=0;
+        String[] arreglo = new String[Array.size()];
+        int sum = 0;
+
         for (int i = 0; i < arreglo.length; i++) {
 
-            arreglo[i] = ""+Integer.parseInt(Array.get(i).getCantidad());
-            cadena+=Integer.parseInt(arreglo[i]);
+            arreglo[i] = "" + Integer.parseInt(Array.get(i).getCantidad());
+            cadena += Integer.parseInt(arreglo[i]);
 
-            arreglo[i] = ""+Integer.parseInt(Array.get(i).getCantidad())*Integer.parseInt(Array.get(i).getPrecio());
-            sum+=Integer.parseInt(arreglo[i]);
+            arreglo[i] = "" + Integer.parseInt(Array.get(i).getCantidad()) * Integer.parseInt(Array.get(i).getPrecio());
+            sum += Integer.parseInt(arreglo[i]);
         }
-        String word ="\tProducto";
-        if (cadena>1){
-            word="\tProductos";
+        String word = "\tProducto";
+        if (cadena > 1) {
+            word = "\tProductos";
         }
-        btnProcederAPagar.setText("Realizar pedido de "+cadena+word);
-        tvSubtotal.setText("SubTotal: $"+sum);
+        btnProcederAPagar.setText("Realizar pedido de " + cadena + word);
+        tvSubtotal.setText("SubTotal: $" + sum);
     }
 
-    private void ListarPedido( ) {
+    private void ListarPedido() {
         try {
             Array.clear();
             ConsultarTabla consultarTabla = new ConsultarTabla(this);
             lv_lista.setLayoutManager(new LinearLayoutManager(this));
             lv_lista.setAdapter(new AdaptadorCarrito(this,
-                    consultarTabla.CarritoConsulta(Array, "counts", idUser, "", ""),MainActivityCarrito.this ,"carrito"));
+                    consultarTabla.CarritoConsulta(Array, "counts", idUser, "", ""), MainActivityCarrito.this, "carrito"));
         } catch (Exception e) {
             Toast.makeText(this, "" + e, Toast.LENGTH_SHORT).show();
             System.out.println(e);
         }
     }
 
-    public void AlertDialogEdit(Context context, String cantidadOriginalAlert, String Foto, String IdProductoAlert, String Cantidad, Activity mActivity) {
+    public void AlertDialogEdit(Context context, String cantidadOriginalAlert, String idTicket, String IdProductoAlert, String Cantidad, Activity mActivity) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewInput = inflater.inflate(R.layout.alert_dialog_editar_carrito, null, false);
@@ -131,13 +138,12 @@ public class MainActivityCarrito extends AppCompatActivity {
         etContador.setText(Cantidad);
 
         DatabaseHandler db = new DatabaseHandler(context);
-        iVP.setImageBitmap(db.getimage(Foto));
+        Picasso.get().load(db.getImagen("" + IdProductoAlert + ".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(iVP);
+//        iVP.setImageBitmap(db.getimageID(IdProductoAlert));
 
         iVMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //Toast.makeText(context, "Cantidad Disponible: " + cantidadOriginalAlert, Toast.LENGTH_SHORT).show();
 
                 int contador = Integer.parseInt(etContador.getText().toString()) + 1;
                 if (contador <= Integer.parseInt(cantidadOriginalAlert)) {
@@ -167,7 +173,7 @@ public class MainActivityCarrito extends AppCompatActivity {
         //Mensaje
         alerta.setTitle(Html.fromHtml("<font color='#F23E0C'>Producto</font>"));
         //alerta.setTitle("Mensaje informativo");
-        alerta.setMessage("Cantidad Disponible: "+cantidadOriginalAlert);
+        alerta.setMessage("Cantidad Disponible: " + cantidadOriginalAlert);
         alerta.setNeutralButton("Editar", (dialogInterface, i) -> {
 
             try {
@@ -175,18 +181,19 @@ public class MainActivityCarrito extends AppCompatActivity {
                 if (contador <= Integer.parseInt(cantidadOriginalAlert)) {
                     int total = Integer.parseInt(cantidadOriginalAlert) - Integer.parseInt(etContador.getText().toString());
                     EditarTabla editarTabla = new EditarTabla();
-                    editarTabla.EditarCarrito(context, IdProductoAlert, etContador.getText().toString(), String.valueOf(total));
+                    editarTabla.EditarCarrito(context, IdProductoAlert, etContador.getText().toString(), idTicket);
 
-                    Intent intent = new Intent(context,MainActivityCarrito.class);
+                    Intent intent = new Intent(context, MainActivityCarrito.class);
                     context.startActivity(intent);
-                    mActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     finish();
+                    mActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                 } else {
                     Toast.makeText(context, "Disponibles: " + cantidadOriginalAlert, Toast.LENGTH_SHORT).show();
                 }
 
             } catch (Exception e) {
-                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
                 System.out.println("" + e);
             }
         });
@@ -209,6 +216,8 @@ public class MainActivityCarrito extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         overridePendingTransition(R.anim.right_in, R.anim.right_out);
 
     }

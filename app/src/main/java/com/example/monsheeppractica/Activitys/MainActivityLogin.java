@@ -6,19 +6,26 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.telephony.PhoneNumberUtils;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +36,7 @@ import com.example.monsheeppractica.GetterAndSetter.Clientes;
 import com.example.monsheeppractica.MainActivity;
 import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
+import com.example.monsheeppractica.sqlite.registros.ConsultarTabla;
 import com.example.monsheeppractica.sqlite.sqlite;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,15 +46,15 @@ public class MainActivityLogin extends AppCompatActivity {
 
     FloatingActionButton fab;
     EditText et_cel, et_pass;
-    String cel, pass;
+    String cel, pass, alias;
     SharedPreferences preferences;
     NetworkInfo networkInfo;
     String usern, tipoUser;
-    Button btnLogin;
+    Button btnLogin,btnRecuperar;
     DatabaseHandler db;
     AlertDialog.Builder alerta;
     TextView tvRegistrarme, tvOlvideContra, tvTitle;
-
+    String contraOlvide;
     String idusers, idFotoUser, NombreUser, idNegocio, idFotoNegocio;
     public static ArrayList<Clientes> clientesArrayList = new ArrayList<>();
 
@@ -67,11 +75,27 @@ public class MainActivityLogin extends AppCompatActivity {
         tvOlvideContra = findViewById(R.id.tvPass);
         tvTitle = findViewById(R.id.tvTitle);
 
+        tvOlvideContra.setOnClickListener(view -> {
+            alertOlvidePass();
+
+        });
+
         tvRegistrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivityRegistroUsuario.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                tvRegistrarme.setEnabled(false);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvRegistrarme.setEnabled(true);
+
+                    }
+                }, 2000);
+
             }
         });
 
@@ -113,6 +137,7 @@ public class MainActivityLogin extends AppCompatActivity {
         tipoUser = preferences.getString("tipouser", "et_pass.getText().toString()");
         idNegocio = preferences.getString("idNegocio", "et_pass.getText().toString()");
         idFotoNegocio = preferences.getString("idFotoNegocio", "et_pass.getText().toString()");
+        alias = preferences.getString("Alias", "et_pass.getText().toString()");
 
         et_cel.setText("" + cel);
         et_pass.setText("" + pass);
@@ -136,6 +161,107 @@ public class MainActivityLogin extends AppCompatActivity {
 
     }
 
+    void alertOlvidePass() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewInput = inflater.inflate(R.layout.olvidepassword, null, false);
+        EditText etLada = viewInput.findViewById(R.id.et_lada);
+        EditText etCel = viewInput.findViewById(R.id.et_cel_olvide);
+        EditText etCode = viewInput.findViewById(R.id.et_code_olvide);
+        TextView tvPass = viewInput.findViewById(R.id.tv_pass_olvide);
+         btnRecuperar = viewInput.findViewById(R.id.btn_recuperar);
+        Button btnConfirm = viewInput.findViewById(R.id.btn_confirmar_olvide);
+
+
+        btnRecuperar.setOnClickListener(view -> {
+            if (!etCel.getText().toString().isEmpty() && !etLada.getText().toString().isEmpty()) {
+                btnRecuperar.setEnabled(false);
+                etCode.setVisibility(View.VISIBLE);
+                btnConfirm.setVisibility(View.VISIBLE);
+                openWhatsApp(etLada.getText().toString().trim(), etCel.getText().toString().trim());
+            } else {
+                Toast.makeText(this, "Debes Llenar todos los campos", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnConfirm.setOnClickListener( view -> {
+            String codeVerify = preferences.getString("codeVerify", "et_pass.getText().toString()");
+            //Toast.makeText(this, ""+codeVerify, Toast.LENGTH_SHORT).show();
+                if (etCode.getText().toString().trim().equals(codeVerify)){
+                    tvPass.setVisibility(View.VISIBLE);
+                    tvPass.setText("Tu contraseña es: "+contraOlvide);
+                }else Toast.makeText(this, "Codigo Incorrecto", Toast.LENGTH_SHORT).show();
+
+
+        });
+
+
+        AlertDialog.Builder alerta = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        //inflar layout
+        alerta.setView(viewInput);
+        //Mensaje
+        alerta.setTitle(Html.fromHtml("<font color='#F23E0C'>Recuperar contraseña"));
+        alerta.setIcon(R.drawable.ic_baseline_lock_24);
+//        alerta.setNeutralButton(Html.fromHtml("<font color='#1CB1C5'>Ver Todos"),
+//                (dialogInterface, i) -> {
+//
+//                });
+        alerta.setNegativeButton(Html.fromHtml("<font color='#F23E0C'>Salir"),
+                (dialogInterface, i) -> {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("codeVerify", "Null");
+                    editor.commit();
+                });
+        alerta.show().getWindow().getDecorView().setBackgroundDrawable(getResources().getDrawable(R.drawable.alertdegradado));//.setBackgroundColor(Color.parseColor("#F1EEEE"));
+
+    }
+
+    public void openWhatsApp(String lada, String cel) {
+        try {
+            sqlite bh = new sqlite
+                    (this, "monsheep", null, 1);
+            SQLiteDatabase db = bh.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from clientes where Telefono=='" + cel.trim()
+                   + "' and status='Activo'", null);
+            if (c.moveToFirst()){
+
+                do {
+                    clientesArrayList.add(new Clientes(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), c.getString(16), c.getString(17), c.getString(18), c.getString(19)));
+                } while (c.moveToNext());
+                contraOlvide =""+ clientesArrayList.get(0).getContra();
+                int code = (int)(Math.random()*256);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("codeVerify", "" + code+clientesArrayList.get(0).getNumero().trim());
+                editor.commit();
+
+                String text = "No lo compartas a nadie mas, Tu codigo de verificacion es: "+code;// Replace with your message.
+
+                String toNumber = "" + lada + cel;
+
+                tvOlvideContra.setEnabled(false);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + toNumber + "&text=" + text));
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvOlvideContra.setEnabled(true);
+
+                    }
+                }, 2000);
+            }else {
+                btnRecuperar.setEnabled(true);
+                Toast.makeText(this, "El numero de telefono no esta registrado en la app", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void checkCameraPermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.CAMERA);
@@ -148,13 +274,15 @@ public class MainActivityLogin extends AppCompatActivity {
     }
 
     public void listaproducto() {
+        btnLogin.setEnabled(false);
+
         clientesArrayList.clear();
         sqlite bh = new sqlite
-                (this, "clientes", null, 1);
+                (this, "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from clientes where Teléfono=='" + et_cel.getText().toString().trim()
+            Cursor c = db.rawQuery("select * from clientes where Telefono=='" + et_cel.getText().toString().trim()
                     + "' and Contra=='" + et_pass.getText().toString().trim() + "' and status='Activo'", null);
             if (c.moveToFirst()) {
                 do {
@@ -172,15 +300,26 @@ public class MainActivityLogin extends AppCompatActivity {
                 editor.putString("idusers", "" + clientesArrayList.get(0).getId_cliente());
                 editor.putString("NombreUser", clientesArrayList.get(0).getNombre() + "" + clientesArrayList.get(0).getApellidoMaterno().trim());
                 editor.putString("idFotoUser", clientesArrayList.get(0).getId_Foto());
-                editor.putString("pass", pass);
+                editor.putString("pass", pass.toString().trim());
                 editor.putString("user", cel);
                 editor.putString("tipouser", "" + clientesArrayList.get(0).getTipoCompra());
                 editor.putString("idNegocio", "" + clientesArrayList.get(0).getIdNegocio());
+                editor.putString("art", "0");
+                editor.putString("Alias", "" + clientesArrayList.get(0).getAlias());
                 editor.commit();
+
+
             } else {
-                Toast.makeText(this, "Tu numero de telefono o contraseña no coinciden" + clientesArrayList.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tu numero de telefono o contraseña no coinciden" , Toast.LENGTH_SHORT).show();
             }
-            db.disableWriteAheadLogging();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    btnLogin.setEnabled(true);
+
+                }
+            }, 2000);
         }
     }
 
@@ -199,5 +338,8 @@ public class MainActivityLogin extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }

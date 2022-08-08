@@ -21,7 +21,7 @@
             android:background="@drawable/lineaabajo"
             android:gravity="center"
             android:text="Mis Datos"
-            android:textColor="#000000" />
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/tvDatosTicket"
@@ -41,7 +41,7 @@
             android:background="@drawable/lineaabajo"
             android:gravity="center"
             android:text="Mis Proveedores"
-            android:textColor="#000000" />
+            android:textColor="#FFFFFF" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +62,19 @@
             android:background="@drawable/lineaabajo"
             android:gravity="center"
             android:text="Mis Productos"
-            android:textColor="#000000" />
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tvSubtotalTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="TextView"
+            android:textColor="#1C8821"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListaTicket"

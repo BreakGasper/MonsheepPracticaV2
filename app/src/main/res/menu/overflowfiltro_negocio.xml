@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemgrafico"
+        android:enabled="true"
+        android:icon="@drawable/grafico"
+        android:title="Estadisticas"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/itemfiltro"
+        android:enabled="true"
+        android:icon="@drawable/filtrar"
+        android:title="Filtro"
+        android:visible="true"
+        app:showAsAction="always" />
+
+</menu>

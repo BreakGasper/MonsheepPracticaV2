@@ -32,7 +32,9 @@
         <item name="android:minHeight">48dp</item>
     </style>
 
-
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorBackground">#F1EEEE</item>
+    </style>
 
     <style name="AppTheme" parent="android:Theme.Material">
         <!--Habilitar animaciones en las transiciones -->

@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -49,6 +50,9 @@ import com.example.monsheeppractica.sqlite.registros.ConsultarTabla;
 import com.example.monsheeppractica.sqlite.registros.EditarTabla;
 import com.example.monsheeppractica.sqlite.registros.InsertarTabla;
 import com.example.monsheeppractica.sqlite.sqlite;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -144,12 +148,6 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
         idFotoUser = preferences.getString("idFotoUser", "et_pass.getText().toString()");
         idNegocio = preferences.getString("idNegocio", "et_pass.getText().toString()");
 
-//        Datos del usuario
-//        idUser =  getIntent().getStringExtra("idusers");
-//        NombreUser =  getIntent().getStringExtra("NombreUser");
-//        idFotoUser =  getIntent().getStringExtra("idFotoUser");
-//        Toast.makeText(this, ""+idUser+NombreUser+idFotoUser, Toast.LENGTH_SHORT).show();
-
         try {
             lista = new ArrayList<>();
             ConsultarTabla consultarTabla = new ConsultarTabla(this);
@@ -214,7 +212,9 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
 
             } else {
                 try {
-                    iv_foto.setImageBitmap(db.getimage(Id_Foto_extra));
+                    Picasso.get().load(db.getImagen(""+id_producto_extra+".jpg")).into(iv_foto);
+
+//                    iv_foto.setImageBitmap(db.getimageID(id_producto_extra));
 
 
                 } catch (Exception e) {
@@ -232,18 +232,35 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
         btn_pro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btn_pro.setEnabled(false);
+
                 Validar_datos();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_pro.setEnabled(true);
+
+                    }
+                }, 2000);
             }
         });
 
         iv_foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                iv_foto.setEnabled(false);
 
-                //abrirGaleria();
-
-                // Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
                 onSelectImageClick(view);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_foto.setEnabled(true);
+
+                    }
+                }, 2000);
+
 
             }
         });
@@ -372,7 +389,7 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
 
 
                     iv_foto.setImageURI(result.getUri());
-                    x = getPath(result.getUri());
+                    x =  ""+ result.getUri();//getPath(result.getUri());
                     num_id = "" + (int) (Math.random() * 10000 + 1 * 3 + 15);
 
 
@@ -412,7 +429,7 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
     public void lista_query_sin_duplicados() {
 
         sqlite bh = new sqlite
-                (this, "producto", null, 1);
+                (this, "monsheep", null, 1);
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
@@ -482,24 +499,55 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
                     registro.put("Id_Foto", idFoto.trim());
                     //Registro de imagen en la base de datos
                     if (!idFoto.isEmpty()) {
+                        db.deleteImage(x,""+id_producto);
                         if (db.insertimage(x, idFoto, String.valueOf(id_producto))) {
-                            Toast.makeText(context,
-                                    "Edicion Exitosa,\nImagen insertada", Toast.LENGTH_SHORT).show();
+                            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                            TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                            text.setText("Edicion Exitosa");
+
+                            Toast toast = new Toast(context);
+                            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                            toast.setDuration(Toast.LENGTH_LONG);
+                            toast.setView(viewInput);
+                            toast.show();
 
                         } else {
                             Toast.makeText(context,
                                     "Error", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(context,
-                                "Registro Exitoso,\nNo guardaste ninguna imagen", Toast.LENGTH_SHORT).show();
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show();
+//                        Toast.makeText(context,
+//                                "Registro Exitoso,\nNo guardaste ninguna imagen", Toast.LENGTH_SHORT).show();
                     }
                     int cantid = BaseDeDatos.update(
                             "producto", registro, "id_producto= " + Integer.parseInt(id_producto), null);
                     BaseDeDatos.close();
                     if (cantid == 1) {
                         Nose(context);
-                        Toast.makeText(context, "Edicion Exitosa", Toast.LENGTH_SHORT).show();
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show();
 
                     } else {
                         Toast.makeText(context, "Producto no existe", Toast.LENGTH_SHORT).show();
@@ -520,8 +568,17 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
                     BaseDeDatos.close();
                     if (cantid == 1) {
                         Nose(context);
-                        Toast.makeText(context, "Edicion Exitosa", Toast.LENGTH_SHORT).show();
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show();
                     } else {
                         Toast.makeText(context, "Producto no existe", Toast.LENGTH_SHORT).show();
                     }
@@ -577,7 +634,16 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
             overridePendingTransition(R.anim.left_in, R.anim.left_out);
             finish();
         } else {
-            Toast.makeText(this, "Agrega una foto", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar= Snackbar.make(et_cant_min,"Agrega una foto",
+                    BaseTransientBottomBar.LENGTH_LONG
+            );
+            snackbar.setAction("Entendido",view1 -> {
+
+            });
+            snackbar.setBackgroundTint(Color.rgb(254,247,19));
+            snackbar.setActionTextColor(Color.WHITE);
+            snackbar.show();
+//            Toast.makeText(this, "Agrega una foto", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -667,7 +733,15 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
             } else
                 et_nombre.setError("El campo categoría es obligatorio y debe ser al menos de 5 caracteresa");
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "" + e, Toast.LENGTH_SHORT).show();
+            Snackbar snackbar= Snackbar.make(et_cant_min,"Debes Llenar Todos los datos",
+                    BaseTransientBottomBar.LENGTH_LONG
+            );
+            snackbar.setAction("Entendido",view1 -> {
+
+            });
+            snackbar.setBackgroundTint(Color.rgb(255,18,64));
+            snackbar.setActionTextColor(Color.WHITE);
+            snackbar.show();
             System.out.println("" + e);
         }
 

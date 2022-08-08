@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/degradadofondoindex"
+    android:background="#F1EEEE"
     tools:context=".fragments.MonsheepFragment">
 
     <LinearLayout
@@ -26,13 +26,9 @@
             android:orientation="vertical">
 
             <com.jude.rollviewpager.RollPagerView
-
                 android:id='@+id/roll_view_pager'
-
                 android:layout_width="300dp"
-
-                android:layout_height="150dp"
-
+                android:layout_height="175dp"
                 android:layout_margin="7dp"
                 app:rollviewpager_play_delay='3000' />
         </LinearLayout>
@@ -54,11 +50,8 @@
                 android:id="@+id/rV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 
 
     </LinearLayout>

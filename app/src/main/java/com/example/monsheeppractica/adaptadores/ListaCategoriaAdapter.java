@@ -22,6 +22,8 @@ import com.example.monsheeppractica.GetterAndSetter.Categorias;
 import com.example.monsheeppractica.GetterAndSetter.Negocio;
 import com.example.monsheeppractica.R;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -105,7 +107,9 @@ public   class ListaCategoriaAdapter extends BaseAdapter {
         });
         animator.start();*/
         DatabaseHandler db  = new DatabaseHandler(context);
-        holder.iv_fondo.setImageBitmap(db.getimage(categoria.getId_foto()));
+        Picasso.get().load(db.getImagen(""+categoria.getId_catgoria()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.iv_fondo);
+
+//        holder.iv_fondo.setImageBitmap(db.getimageID(""+categoria.getId_catgoria()));
         //asignar los datos correspondientes en la lista
         holder.tvNombre.setText(categoria.getCategoria() );
         holder.tvDesc.setText(categoria.getDescripcion());
