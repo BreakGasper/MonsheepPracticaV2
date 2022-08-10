@@ -47,12 +47,10 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
             ,"No compartas tus datos personales externos a la app","Puedes contactar a los negocios por medio whatsapp o llamada");
    static public String ip = "https://monsheep.000webhostapp.com/";
     String tables = "0";
-    Activity activity;
     Random aleatorio = new Random();
-    public wsDataDownload(Context context, Activity activity) {
+    public wsDataDownload(Context context) {
 
         this.context = context;
-        this.activity = activity;
     }
 
     public void cargarWebService(String table) {
@@ -68,7 +66,7 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
 
 //            progreso.setMax(100);
             progreso.setTitle("¡Obteniendo Catalogo Actual!");
-            progreso.setMessage("consejo: ");
+            progreso.setMessage("consejo: "+listConsejos.get(aleatorio.nextInt(listConsejos.size())));
             tvProgreso.setText("Consejo: "+listConsejos.get(aleatorio.nextInt(listConsejos.size())));
 
 //            progreso.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -262,29 +260,18 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
 
     @Override
     public void onResponse(JSONObject response) {
-//        String table="carrito";
         try {
-            // System.out.println("Dato: "+tables);
-            //for (int i = 0; i < NombreTablas().size(); i++) {
             JSONArray json = response.optJSONArray("tables");
-//                if (json.length() > 0) {
-
-//            Toast.makeText(context, "" + json.length(), Toast.LENGTH_SHORT).show();
             for (int j = 0; j < json.length(); j++) {
                 JSONObject jsonObject = null;
                 jsonObject = json.getJSONObject(j);
                 DatosGuardando(j, Columnas(tables), tables, jsonObject);
             }
-//                }
-            // }
             progreso.hide();
         } catch (JSONException e) {
             e.printStackTrace();
-            //  Toast.makeText(context, "No se ha podido establecer conexión con el servidor" +
-            //   " " + response, Toast.LENGTH_LONG).show();
             progreso.hide();
         }
-
     }
 
     void DatosGuardando(int pos, ArrayList list, String tabla, JSONObject jsonObject) {

@@ -379,6 +379,10 @@ public class ConsultarTabla {
             }else if (clave.equals("Validate")) {
                 c = db.rawQuery("select * from carrito  where  idUser=='"+idUser+"' and idProducto=='"+idProducto+"' and solicitud='0'", null);
                 //  where status='Activo'  and  idUser=='"+idUser+"'Count DistinctDistinct idProducto,Productos,cantidad,precio
+            }else if (clave.equals("Estadistica")) {
+                c = db.rawQuery("select * from carrito  where   idproveedor=='"+idUser+"' and solicitud =='Entregado'  order by Productos  desc", null);
+
+
             }
 
 

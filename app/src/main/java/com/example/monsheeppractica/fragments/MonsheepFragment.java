@@ -1,6 +1,9 @@
 package com.example.monsheeppractica.fragments;
 
+import static com.example.monsheeppractica.WebService.wsDataDownload.NombreTablas;
 import static com.example.monsheeppractica.adaptadores.ListaProductoPostAdaptador.*;
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -36,7 +39,9 @@ import com.example.monsheeppractica.Activitys.MainActivityRegistroProductos;
 import com.example.monsheeppractica.GetterAndSetter.Productos;
 import com.example.monsheeppractica.Activitys.MainActivityDetalles;
 import com.example.monsheeppractica.GetterAndSetter.Roll;
+import com.example.monsheeppractica.MainActivity;
 import com.example.monsheeppractica.R;
+import com.example.monsheeppractica.WebService.wsDataDownload;
 import com.example.monsheeppractica.WebService.wsEdit;
 import com.example.monsheeppractica.adaptadores.AdaptadorPost;
 import com.example.monsheeppractica.adaptadores.Lista_productoAdaptador;
@@ -175,8 +180,12 @@ public class MonsheepFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Esto se ejecuta cada vez que se realiza el gesto
-                listaproducto();
-                RollPage();
+                DescargarCatalogo();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+//                listaproducto();
+//                RollPage();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -184,7 +193,23 @@ public class MonsheepFragment extends Fragment {
         return root;
     }
 
+    public void DescargarCatalogo() {
+        if (isNetDisponible(getActivity())== true && isOnlineNet()==true){
 
+            for (int i = 0; i < NombreTablas().size(); i++) {
+
+
+                sqlite admin = new sqlite(getActivity(), "monsheep", null, 1);
+                SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
+                BaseDeDatos.delete(NombreTablas().get(i).toString(), "", null);
+                wsDataDownload download = new wsDataDownload(getActivity());
+                download.cargarWebService(NombreTablas().get(i).toString());
+
+            }
+
+        }else{ Toast.makeText(getActivity(), "Sin Red", Toast.LENGTH_SHORT).show();}
+
+    }
     public void Modificar_Eliminacion() {
         EditarBaja editarBaja = new EditarBaja(getActivity());
         editarBaja.BajaProducto(id_producto);

@@ -141,19 +141,20 @@ public class MainActivityAjustes extends AppCompatActivity {
         etContra.setVisibility(View.GONE);
         etRepContra.setVisibility(View.GONE);
 
-        if (!idNegocio.equals("basico")) {
+        if (!idNegocio.equals("0")) {
             ivTienda.setVisibility(View.VISIBLE);
             Picasso.get().load(db.getImagen(""+idNegocio+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(ivTienda);
 
 //            ivTienda.setImageBitmap(db.getimageID("" + idNegocio));
-        }
+        }//else ivTienda.setImageDrawable(getResources().getDrawable(R.drawable.mcolor));
         Picasso.get().load(db.getImagen(""+idUser+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(ivUser);
 
 //        ivUser.setImageBitmap(db.getimageID("" + idUser));
-
+        //Toast.makeText(this, ""+idNegocio, Toast.LENGTH_SHORT).show();
         ivTienda.setOnClickListener(view -> {
-
-            LlenarDatosNegocio();
+            if (!idNegocio.equals("0")){
+                LlenarDatosNegocio();
+            }else Toast.makeText(this, "Registra tu negocio", Toast.LENGTH_SHORT).show();
 
         });
 

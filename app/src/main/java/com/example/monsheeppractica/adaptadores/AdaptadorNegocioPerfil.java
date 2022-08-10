@@ -1,5 +1,8 @@
 package com.example.monsheeppractica.adaptadores;
 
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -121,7 +124,27 @@ public class AdaptadorNegocioPerfil extends RecyclerView.Adapter<AdaptadorNegoci
                 View viewInput = inflater.inflate(R.layout.alert_dialog_qrl, null, false);
                 GenerarQR qr = new GenerarQR();
                 ImageView imagenCodigo= viewInput.findViewById(R.id.imageView5);
-                imagenCodigo.setImageBitmap(qr.createQRcodeImage(""+idUser,200,200));
+                TextView textView = viewInput.findViewById(R.id.tvRecibiPedido);
+
+                //imagenCodigo.setImageBitmap(qr.createQRcodeImage(""+idUser,200,200));
+                imagenCodigo.setImageDrawable(context.getResources().getDrawable(R.drawable.recibio));
+                imagenCodigo.setOnClickListener(view1 -> {
+
+                    if (isNetDisponible(context) == true && isOnlineNet() == true) {
+                        CerrarDato(idUser,""+producto.getIdNegocio());
+
+                    } else {
+                        Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                textView.setOnClickListener(view3->{
+                    if (isNetDisponible(context) == true && isOnlineNet() == true) {
+                        CerrarDato(idUser,""+producto.getIdNegocio());
+
+                    } else {
+                        Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(context);
                 alerta.setView(viewInput);
@@ -130,7 +153,12 @@ public class AdaptadorNegocioPerfil extends RecyclerView.Adapter<AdaptadorNegoci
                 alerta.setMessage(Html.fromHtml("<H6><font color='#0060D2'>" + "Porfavor,<br>Preciona: 'RECIBI MI PEDIDO'" + "</font></H6>"));
                 alerta.setNegativeButton("Recibi mi pedido\nde " + producto.getNombre(), (dialogInterface, i) -> {
 
-                    CerrarDato(idUser,""+producto.getIdNegocio());
+                    if (isNetDisponible(context) == true && isOnlineNet() == true) {
+                        CerrarDato(idUser,""+producto.getIdNegocio());
+                    } else {
+                        Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 });
                 alerta.setIcon(R.drawable.entregapaquete);

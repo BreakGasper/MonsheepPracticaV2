@@ -1,5 +1,9 @@
 package com.example.monsheeppractica.sqlite.registros;
 
+import static com.example.monsheeppractica.WebService.wsDataDownload.NombreTablas;
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.monsheeppractica.MainActivity;
 import com.example.monsheeppractica.R;
+import com.example.monsheeppractica.WebService.wsDataDownload;
 import com.example.monsheeppractica.WebService.wsInsert;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
 import com.example.monsheeppractica.sqlite.sqlite;
@@ -47,8 +52,7 @@ public class InsertarTabla {
         registro.put("Id_Foto", idFoto.trim());
         registro.put("status", status);
         registro.put("idproducto", idProducto);
-        BaseDeDatos.insert("categoria", null, registro);
-        BaseDeDatos.close();
+
         ArrayList list = new ArrayList();
         list.add("id_categoria");
         list.add("categoria");
@@ -63,11 +67,30 @@ public class InsertarTabla {
         listdata.add(idFoto);
         listdata.add(status);
         listdata.add(idProducto);
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_categorias.php");
-        if (!idFoto.isEmpty()) {
-            if (db.insertimage(x, idFoto, String.valueOf(idCategoria))) {
+
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            BaseDeDatos.insert("categoria", null, registro);
+            BaseDeDatos.close();
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_categorias.php");
+            if (!idFoto.isEmpty()) {
+                if (db.insertimage(x, idFoto, String.valueOf(idCategoria))) {
 //                Toast.makeText(context, "Registro Exitoso,\nImagen insertada", Toast.LENGTH_SHORT).show();
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                    TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                    text.setText("Registro Exitoso");
+
+                    Toast toast = new Toast(context);
+                    //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(viewInput);
+                    toast.show();
+                } else {
+                    //Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }
+            } else {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
@@ -79,23 +102,12 @@ public class InsertarTabla {
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(viewInput);
                 toast.show();
-            } else {
-                //Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Registro Exitoso,\nNo guardaste ninguna imagen", Toast.LENGTH_SHORT).show();
             }
         } else {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
-
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
-
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
-//            Toast.makeText(context, "Registro Exitoso,\nNo guardaste ninguna imagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
@@ -119,8 +131,7 @@ public class InsertarTabla {
         registro.put("oferta", oferta);
         registro.put("status", status);
         registro.put("dato", dato);
-      BaseDeDatos.insert("roll", null, registro);
-        BaseDeDatos.close();
+
         ArrayList list = new ArrayList();
         list.add("idPromo");
         list.add("fecha");
@@ -135,18 +146,25 @@ public class InsertarTabla {
         listdata.add(oferta);
         listdata.add(status);
         listdata.add(dato);
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_roll.php");
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
-        TextView text = (TextView) viewInput.findViewById(R.id.text12);
-        text.setText("Registro Exitoso");
-        Toast toast = new Toast(context);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(viewInput);
-        toast.show();
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            BaseDeDatos.insert("roll", null, registro);
+            BaseDeDatos.close();
 
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_roll.php");
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            TextView text = (TextView) viewInput.findViewById(R.id.text12);
+            text.setText("Registro Exitoso");
+            Toast toast = new Toast(context);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(viewInput);
+            toast.show();
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -184,13 +202,13 @@ public class InsertarTabla {
         registro.put("Id_Foto", num_id.trim());
         registro.put("status", status);
         registro.put("cantidadMinima", "" + cant_min);
-        registro.put("idFotoUser", "0"+idFotoUser);
+        registro.put("idFotoUser", "0" + idFotoUser);
         registro.put("NombreUser", NombreUser);
         registro.put("idUser", idUser);
         registro.put("idNegocio", idNegocio);
         registro.put("fecha", fecha);
         registro.put("hora", hora);
-        int n =   (int) BaseDeDatos.insert("producto", null, registro);
+
 
         ArrayList list = new ArrayList();
         list.add("id_producto");
@@ -214,7 +232,7 @@ public class InsertarTabla {
         list.add("hora");
 
         ArrayList listdata = new ArrayList();
-        listdata.add(""+id_producto);
+        listdata.add("" + id_producto);
         listdata.add(nombre);
         listdata.add(costo);
         listdata.add(menudeo);
@@ -224,52 +242,46 @@ public class InsertarTabla {
         listdata.add(unidad_med);
         listdata.add(cat_nombre_sp);
         listdata.add(cat_id_sp);
-        listdata.add(""+num_id.trim());
+        listdata.add("" + num_id.trim());
         listdata.add(status);
         listdata.add(cant_min);
-        listdata.add("0"+idFotoUser);
+        listdata.add("0" + idFotoUser);
         listdata.add(NombreUser);
-        listdata.add(""+idUser);
+        listdata.add("" + idUser);
         listdata.add(idNegocio);
         listdata.add(fecha);
         listdata.add(hora);
 
-
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_producto.php");
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
-
-        TextView text = (TextView) viewInput.findViewById(R.id.text12);
-        text.setText("Registro Exitoso");
-       // if (n == 1) {
-
-
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+           // Toast.makeText(context, "Conectado", Toast.LENGTH_SHORT).show();
+            int n = (int) BaseDeDatos.insert("producto", null, registro);
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_producto.php");
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            TextView text = (TextView) viewInput.findViewById(R.id.text12);
+            text.setText("Registro Exitoso");
             Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
             toast.setDuration(Toast.LENGTH_LONG);
             toast.setView(viewInput);
             toast.show();
-            //Toast.makeText(context, "Exito de datos", Toast.LENGTH_SHORT).show();
-        //}
+            if (!num_id.isEmpty()) {
 
-        if (!num_id.isEmpty()) {
+                if (db.insertimage(x, num_id, String.valueOf(id_producto))) {
 
-            if (db.insertimage(x, num_id, String.valueOf(id_producto))) {
-
-                //  Toast.makeText(context, "Registro Exitoso,\nImagen insertada", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context, "Registro Exitoso,\nImagen insertada", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                // Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+                text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Registro Exitoso");
+
             }
         } else {
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            viewInput = inflater.inflate(R.layout.toast_layout, null, false);
-
-            text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
-
-
-            //Toast.makeText(context, "Registro Exitoso,\nNo guardaste ninguna imagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -287,7 +299,7 @@ public class InsertarTabla {
 
         ContentValues registro = new ContentValues();
 
-       idCliente =  (int) (Math.random() * 10000 + 1 * 3 + 15);
+        idCliente = (int) (Math.random() * 10000 + 1 * 3 + 15);
 
         registro.put("id_cliente", idCliente);
         registro.put("Nombre", Nombre);
@@ -309,7 +321,7 @@ public class InsertarTabla {
         registro.put("Id_Foto", num_id.trim());
         registro.put("Contra", "" + Contra);
         registro.put("idNegocio", "" + idNegocio);
-        BaseDeDatos.insert("clientes", null, registro);
+
         ArrayList list = new ArrayList();
         list.add("id_cliente");
         list.add("Nombre");
@@ -353,30 +365,37 @@ public class InsertarTabla {
         listdata.add(num_id);
         listdata.add(Contra);
         listdata.add(idNegocio);
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_user.php");
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            BaseDeDatos.insert("clientes", null, registro);
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_user.php");
 
-        TextView text = (TextView) viewInput.findViewById(R.id.text12);
-        text.setText("Registro Exitoso");
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-        Toast toast = new Toast(context);
-        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(viewInput);
-        toast.show();
+            TextView text = (TextView) viewInput.findViewById(R.id.text12);
+            text.setText("Registro Exitoso");
 
-        BaseDeDatos.close();
+            Toast toast = new Toast(context);
+            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(viewInput);
+            toast.show();
+
+            BaseDeDatos.close();
 
 
-        if (!num_id.isEmpty()) {
-            if (db.insertimage(x, num_id, String.valueOf(idCliente))) {
+            if (!num_id.isEmpty()) {
+                if (db.insertimage(x, num_id, String.valueOf(idCliente))) {
 //                Toast.makeText(context, "Registro Exitoso,\nImagen insertada", Toast.LENGTH_SHORT).show();
-            } else {
+                } else {
 //                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }
             }
+
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -411,7 +430,7 @@ public class InsertarTabla {
         registro.put("Correo", Correo);
         registro.put("Descripcion", "" + Descripcion);
 
-        int n = (int) BaseDeDatos.insert("negocio", null, registro);
+
         ArrayList list = new ArrayList();
         list.add("idNegocio");
         list.add("idUser");
@@ -435,8 +454,8 @@ public class InsertarTabla {
 
 
         ArrayList listdata = new ArrayList();
-        listdata.add(""+idNegocio);
-        listdata.add(""+idUser);
+        listdata.add("" + idNegocio);
+        listdata.add("" + idUser);
         listdata.add(Nombre);
         listdata.add(TipoCompra);
         listdata.add(Calle);
@@ -455,29 +474,37 @@ public class InsertarTabla {
         listdata.add(Correo);
         listdata.add(Descripcion);
 
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_negocio.php");
 
-        if (n == 1) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int n = (int) BaseDeDatos.insert("negocio", null, registro);
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_negocio.php");
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
-        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
-        //BaseDeDatos.close();
-        if (!num_id.isEmpty()) {
-            if (db.insertimage(x, num_id, String.valueOf(idNegocio))) {
-                // Toast.makeText(context, "Registro Exitoso,\nImagen insertada", Toast.LENGTH_SHORT).show();
-            } else {
+            if (n == 1) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Registro Exitoso");
+
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+            }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+            //BaseDeDatos.close();
+            if (!num_id.isEmpty()) {
+                if (db.insertimage(x, num_id, String.valueOf(idNegocio))) {
+                    // Toast.makeText(context, "Registro Exitoso,\nImagen insertada", Toast.LENGTH_SHORT).show();
+                } else {
 //                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                }
             }
+
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
 
         return idNegocio;
@@ -506,7 +533,7 @@ public class InsertarTabla {
         registro.put("status", "Activo");
         registro.put("fecha", fecha);
         registro.put("hora", hora);
-        int n = (int) BaseDeDatos.insert("comentario", null, registro);
+
 
         ArrayList list = new ArrayList();
         list.add("id_comentario");
@@ -531,25 +558,30 @@ public class InsertarTabla {
         listdata.add(fecha);
         listdata.add(hora);
 
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_comentario.php");
-        if (n == 1) {
+
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int n = (int) BaseDeDatos.insert("comentario", null, registro);
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_comentario.php");
+            if (n == 1) {
 //            Toast.makeText(context, "Comentario Exitoso", Toast.LENGTH_SHORT).show();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Registro Exitoso");
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
-        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+            }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
 
-        BaseDeDatos.close();
-
+            BaseDeDatos.close();
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -569,7 +601,7 @@ public class InsertarTabla {
         registro.put("idSeguidor", idSeguidor);
         registro.put("nombreSeguidor", nombreSeguidor);
         registro.put("status", "Activo");
-        int n =  (int) BaseDeDatos.insert("seguir", null, registro);
+
         ArrayList list = new ArrayList();
         list.add("idSeguir");
         list.add("idUser");
@@ -584,23 +616,30 @@ public class InsertarTabla {
         listdata.add(nombreSeguidor);
         listdata.add("Activo");
 
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list, listdata, "insert_seguir.php");
-        if (n == 1) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int n = (int) BaseDeDatos.insert("seguir", null, registro);
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_seguir.php");
+            if (n == 1) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
-            //Toast.makeText(context, "Comentario Exitoso", Toast.LENGTH_SHORT).show();
-        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
-        // BaseDeDatos.close();
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Registro Exitoso");
+
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+                //Toast.makeText(context, "Comentario Exitoso", Toast.LENGTH_SHORT).show();
+            }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+            // BaseDeDatos.close();
+
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -631,7 +670,7 @@ public class InsertarTabla {
         registro.put("solicitud", "0");
         registro.put("idDomicilio", "0");
         registro.put("Ticket", "0");
-        int n =  (int) BaseDeDatos.insert("carrito", null, registro);
+
         ArrayList list = new ArrayList();
         list.add("idticket");
         list.add("idUser");
@@ -665,9 +704,14 @@ public class InsertarTabla {
         listdata.add("0");
 
 
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_carrito.php");
-        if (n == 1) {
+
+
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int n = (int) BaseDeDatos.insert("carrito", null, registro);
+            BaseDeDatos.close();
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_carrito.php");
+            if (n == 1) {
 //            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 //
@@ -680,9 +724,10 @@ public class InsertarTabla {
 //            toast.setView(viewInput);
 //            toast.show();
 //            Toast.makeText(context, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
-        BaseDeDatos.close();
-
+            }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void RegistrarDomicilios(Context context, int idDomicilio, String idUser, String NombreCompleto,
@@ -709,7 +754,7 @@ public class InsertarTabla {
         registro.put("numero", numero);
         registro.put("municipio", municipio);
 
-        int n = (int) BaseDeDatos.insert("domicilios", null, registro);
+
         ArrayList list = new ArrayList();
         list.add("idDomicilio");
         list.add("idUser");
@@ -734,10 +779,11 @@ public class InsertarTabla {
         listdata.add(numero);
         listdata.add(municipio);
 
-
-        tab = new wsInsert(context);
-        tab.enlase_base_de_datos(list,listdata,"insert_domicilios.php");
-        if (n == 1) {
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int n = (int) BaseDeDatos.insert("domicilios", null, registro);
+            tab = new wsInsert(context);
+            tab.enlase_base_de_datos(list, listdata, "insert_domicilios.php");
+            if (n == 1) {
 //            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 //
@@ -750,8 +796,12 @@ public class InsertarTabla {
 //            toast.setView(viewInput);
 //            toast.show();
 //            Toast.makeText(context, "Registro Exitoso", Toast.LENGTH_SHORT).show();
-        }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
-          BaseDeDatos.close();
+            }//else Toast.makeText(context,"Falla al registro",Toast.LENGTH_SHORT).show();
+            BaseDeDatos.close();
+
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

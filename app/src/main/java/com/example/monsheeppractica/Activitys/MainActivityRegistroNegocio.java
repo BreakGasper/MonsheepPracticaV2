@@ -1,5 +1,8 @@
 package com.example.monsheeppractica.Activitys;
 
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -303,7 +306,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
 
 
                     iv_foto.setImageURI(result.getUri());
-                    x =  ""+ result.getUri();//getPath(result.getUri());
+                    x = "" + result.getUri();//getPath(result.getUri());
                     num_id = "" + (int) (Math.random() * 10000 + 1 * 3 + 15);
 
 
@@ -425,9 +428,13 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
             EditarTabla editarTabla = new EditarTabla();
             editarTabla.EditarUser(this, Integer.parseInt(idUser), String.valueOf(idEditNego), TipoCompra);
 
-            Intent intent = new Intent(this, MainActivityLogin.class);
-            startActivity(intent);
-            finish();
+            if (isNetDisponible(this) == true && isOnlineNet() == true) {
+                Intent intent = new Intent(this, MainActivityLogin.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Sin Red", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(this, "Agrega una foto", Toast.LENGTH_SHORT).show();
         }
@@ -605,7 +612,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
         //Mensaje
         alerta.setTitle(Html.fromHtml("<font color='#269BF4'>Mensaje informativo</font>"));
         //alerta.setTitle("Mensaje informativo");
-        alerta.setMessage("El producto ya fue previamente registrado y no puede duplicarse");
+        alerta.setMessage("El Nombre del negocio ya fue previamente registrado y no puede duplicarse");
 
         alerta.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override

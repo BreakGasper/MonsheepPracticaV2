@@ -35,7 +35,7 @@ public class MainActivityNotificacionesNegocio extends AppCompatActivity {
     ArrayList<Carrito> carritoArray = new ArrayList<>();
     ArrayList<Carrito> carritoA = new ArrayList<>();
     ArrayList<Negocio> negocioArray = new ArrayList<>();
-
+    boolean datos = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +74,9 @@ public class MainActivityNotificacionesNegocio extends AppCompatActivity {
             carritoA.clear();
 
             consultarTabla.CarritoConsulta(carritoArray, clave, idNegocio, "", fecha);
-            if (carritoArray.size()==0){
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
-                TextView text = (TextView) viewInput.findViewById(R.id.text12);
-                text.setText("¡Aun no tienes pedidos!,\nInvita a tus clientes a usar la app");
-                Toast toast = new Toast(this);
-                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(viewInput);
-                toast.show();
+            if (carritoArray.size() == 0) {
+                datos = true;
+                MSJ_TOAST();
             }
             String[] arreglo = new String[carritoArray.size()];
             // Toast.makeText(this, ""+idNegocio, Toast.LENGTH_SHORT).show();
@@ -94,7 +87,7 @@ public class MainActivityNotificacionesNegocio extends AppCompatActivity {
                             consultarTabla.CarritoConsulta(carritoA, "notificacion", idNegocio,
                                     "" + carritoArray.get(i).getIdticket(), "" + carritoArray.get(i).getTicket()),
                             MainActivityNotificacionesNegocio.this, "ket"));
-//                    Toast.makeText(this, ""+carritoArray.get(i).getTicket(), Toast.LENGTH_SHORT).show();
+
                 } else if (!carritoArray.get(i).getTicket().equals(carritoArray.get(i - 1).getTicket())) {
 
                     lVNotificacion.setAdapter(new AdaptadorHistorial(this,
@@ -109,6 +102,18 @@ public class MainActivityNotificacionesNegocio extends AppCompatActivity {
             Toast.makeText(this, "" + e, Toast.LENGTH_SHORT).show();
             System.out.println(e);
         }
+    }
+
+    private void MSJ_TOAST() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+        text.setText("¡Aun no tienes pedidos!,\nInvita a tus clientes a usar la app");
+        Toast toast = new Toast(this);
+        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(viewInput);
+        toast.show();
     }
 
     @Override
@@ -180,9 +185,12 @@ public class MainActivityNotificacionesNegocio extends AppCompatActivity {
 
 
         }
-        if (id == R.id.itemgrafico){
+        if (id == R.id.itemgrafico) {
+//            if (datos) {
             Intent intent = new Intent(this, MainActivityEstadisticas.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.left_in, R.anim.left_out);
+//            } else MSJ_TOAST();
         }
 
 

@@ -1,5 +1,9 @@
 package com.example.monsheeppractica.Activitys;
 
+import static com.example.monsheeppractica.WebService.wsDataDownload.NombreTablas;
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,7 +38,9 @@ import android.widget.Toast;
 
 import com.example.monsheeppractica.GetterAndSetter.Clientes;
 import com.example.monsheeppractica.MainActivity;
+import com.example.monsheeppractica.MainActivitySplash;
 import com.example.monsheeppractica.R;
+import com.example.monsheeppractica.WebService.wsDataDownload;
 import com.example.monsheeppractica.sqlite.DatabaseHandler;
 import com.example.monsheeppractica.sqlite.registros.ConsultarTabla;
 import com.example.monsheeppractica.sqlite.sqlite;
@@ -50,7 +56,7 @@ public class MainActivityLogin extends AppCompatActivity {
     SharedPreferences preferences;
     NetworkInfo networkInfo;
     String usern, tipoUser;
-    Button btnLogin,btnRecuperar;
+    Button btnLogin, btnRecuperar;
     DatabaseHandler db;
     AlertDialog.Builder alerta;
     TextView tvRegistrarme, tvOlvideContra, tvTitle;
@@ -74,6 +80,9 @@ public class MainActivityLogin extends AppCompatActivity {
         tvRegistrarme = findViewById(R.id.tvReg);
         tvOlvideContra = findViewById(R.id.tvPass);
         tvTitle = findViewById(R.id.tvTitle);
+
+
+        VerificarAcceso();
 
         tvOlvideContra.setOnClickListener(view -> {
             alertOlvidePass();
@@ -161,6 +170,26 @@ public class MainActivityLogin extends AppCompatActivity {
 
     }
 
+    public void VerificarAcceso() {
+        if (isNetDisponible(this)== true && isOnlineNet()==true){
+            Toast.makeText(this, "Conectado", Toast.LENGTH_SHORT).show();
+            int count = 0;
+
+            for (int i = 0; i < NombreTablas().size(); i++) {
+                count++;
+
+                sqlite admin = new sqlite(this, "monsheep", null, 1);
+                SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
+                BaseDeDatos.delete(NombreTablas().get(i).toString(), "", null);
+                wsDataDownload download = new wsDataDownload(this);
+                download.cargarWebService(NombreTablas().get(i).toString());
+
+            }
+
+        }else{ Toast.makeText(this, "Sin Red", Toast.LENGTH_SHORT).show();}
+
+    }
+
     void alertOlvidePass() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewInput = inflater.inflate(R.layout.olvidepassword, null, false);
@@ -168,7 +197,7 @@ public class MainActivityLogin extends AppCompatActivity {
         EditText etCel = viewInput.findViewById(R.id.et_cel_olvide);
         EditText etCode = viewInput.findViewById(R.id.et_code_olvide);
         TextView tvPass = viewInput.findViewById(R.id.tv_pass_olvide);
-         btnRecuperar = viewInput.findViewById(R.id.btn_recuperar);
+        btnRecuperar = viewInput.findViewById(R.id.btn_recuperar);
         Button btnConfirm = viewInput.findViewById(R.id.btn_confirmar_olvide);
 
 
@@ -183,13 +212,13 @@ public class MainActivityLogin extends AppCompatActivity {
             }
         });
 
-        btnConfirm.setOnClickListener( view -> {
+        btnConfirm.setOnClickListener(view -> {
             String codeVerify = preferences.getString("codeVerify", "et_pass.getText().toString()");
             //Toast.makeText(this, ""+codeVerify, Toast.LENGTH_SHORT).show();
-                if (etCode.getText().toString().trim().equals(codeVerify)){
-                    tvPass.setVisibility(View.VISIBLE);
-                    tvPass.setText("Tu contraseña es: "+contraOlvide);
-                }else Toast.makeText(this, "Codigo Incorrecto", Toast.LENGTH_SHORT).show();
+            if (etCode.getText().toString().trim().equals(codeVerify)) {
+                tvPass.setVisibility(View.VISIBLE);
+                tvPass.setText("Tu contraseña es: " + contraOlvide);
+            } else Toast.makeText(this, "Codigo Incorrecto", Toast.LENGTH_SHORT).show();
 
 
         });
@@ -221,19 +250,19 @@ public class MainActivityLogin extends AppCompatActivity {
                     (this, "monsheep", null, 1);
             SQLiteDatabase db = bh.getReadableDatabase();
             Cursor c = db.rawQuery("select * from clientes where Telefono=='" + cel.trim()
-                   + "' and status='Activo'", null);
-            if (c.moveToFirst()){
+                    + "' and status='Activo'", null);
+            if (c.moveToFirst()) {
 
                 do {
                     clientesArrayList.add(new Clientes(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), c.getString(16), c.getString(17), c.getString(18), c.getString(19)));
                 } while (c.moveToNext());
-                contraOlvide =""+ clientesArrayList.get(0).getContra();
-                int code = (int)(Math.random()*256);
+                contraOlvide = "" + clientesArrayList.get(0).getContra();
+                int code = (int) (Math.random() * 256);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("codeVerify", "" + code+clientesArrayList.get(0).getNumero().trim());
+                editor.putString("codeVerify", "" + code + clientesArrayList.get(0).getNumero().trim());
                 editor.commit();
 
-                String text = "No lo compartas a nadie mas, Tu codigo de verificacion es: "+code;// Replace with your message.
+                String text = "No lo compartas a nadie mas, Tu codigo de verificacion es: " + code;// Replace with your message.
 
                 String toNumber = "" + lada + cel;
 
@@ -252,7 +281,7 @@ public class MainActivityLogin extends AppCompatActivity {
 
                     }
                 }, 2000);
-            }else {
+            } else {
                 btnRecuperar.setEnabled(true);
                 Toast.makeText(this, "El numero de telefono no esta registrado en la app", Toast.LENGTH_SHORT).show();
             }
@@ -310,7 +339,7 @@ public class MainActivityLogin extends AppCompatActivity {
 
 
             } else {
-                Toast.makeText(this, "Tu numero de telefono o contraseña no coinciden" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tu numero de telefono o contraseña no coinciden", Toast.LENGTH_SHORT).show();
             }
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {

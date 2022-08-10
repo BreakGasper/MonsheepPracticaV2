@@ -6,6 +6,9 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.Manifest.permission_group.CAMERA;
 
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -482,7 +485,12 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
                     Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno,
                     TipoCompra, num_id, x, Contra.trim(), "0");
 
-            finish();
+            if (isNetDisponible(this) == true && isOnlineNet() == true) {
+                finish();
+            } else {
+                Toast.makeText(this, "Sin Red", Toast.LENGTH_SHORT).show();
+            }
+
         } else {
             Toast.makeText(this, "Agrega una foto", Toast.LENGTH_SHORT).show();
         }

@@ -18,15 +18,30 @@
             android:orientation="vertical">
 
 
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/lineaabajo"
+                android:gravity="center"
+                android:text="Mi historial de ventas"
+                android:textColor="#FFFFFF" />
 
+            <Spinner
+                android:id="@+id/spDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="gone"/>
 
             <org.eazegraph.lib.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:padding="6dp"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
-                />
+                android:padding="6dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvColor"

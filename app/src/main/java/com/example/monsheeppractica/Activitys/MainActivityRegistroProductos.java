@@ -2,6 +2,8 @@ package com.example.monsheeppractica.Activitys;
 
 import static com.example.monsheeppractica.Activitys.MainActivityDetalles.DateFormat_Fecha;
 import static com.example.monsheeppractica.Activitys.MainActivityDetalles.DateFormat_Hour;
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -433,7 +435,7 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
         if (bh != null) {
 
             SQLiteDatabase db = bh.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from producto where producto LIKE '" + nombre + "'", null);
+            Cursor c = db.rawQuery("select * from producto where idNegocio='"+idNegocio+"' and producto LIKE '" + nombre + "'", null);
 
             if (c.moveToFirst()) {
                 do {
@@ -625,14 +627,18 @@ public class MainActivityRegistroProductos extends AppCompatActivity {
                     marca, x, color, unidad_med, cat_nombre_sp, String.valueOf(cat_id_sp),
                     num_id, "Activo", cant_min, listar, idUser, negocioname, idNegocio,fecha,hora);//idNegocio
 
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("final", "produ");
-            intent.putExtra("idusers", "" + idUser);
-            intent.putExtra("NombreUser", NombreUser);
-            intent.putExtra("idFotoUser", idFotoUser);
-            startActivity(intent);
-            overridePendingTransition(R.anim.left_in, R.anim.left_out);
-            finish();
+            if (isNetDisponible(this) == true && isOnlineNet() == true) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("final", "produ");
+                intent.putExtra("idusers", "" + idUser);
+                intent.putExtra("NombreUser", NombreUser);
+                intent.putExtra("idFotoUser", idFotoUser);
+                startActivity(intent);
+                overridePendingTransition(R.anim.left_in, R.anim.left_out);
+                finish();
+            } else {
+                Toast.makeText(this, "Sin Red", Toast.LENGTH_SHORT).show();
+            }
         } else {
             Snackbar snackbar= Snackbar.make(et_cant_min,"Agrega una foto",
                     BaseTransientBottomBar.LENGTH_LONG

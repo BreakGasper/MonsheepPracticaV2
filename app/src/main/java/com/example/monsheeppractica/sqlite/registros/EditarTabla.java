@@ -1,5 +1,8 @@
 package com.example.monsheeppractica.sqlite.registros;
 
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,30 +42,36 @@ public class EditarTabla {
             ContentValues registro = new ContentValues();
             registro.put("categoria", categoria);
             registro.put("Descripcion", descripcion);
-            if (idFoto.isEmpty()) {
-                cantid = BaseDeDatos.update("categoria", registro, "id_categoria= " + Integer.parseInt(idCategoria), null);
-                BaseDeDatos.close();
-                if (cantid == 1) {
-                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-                    TextView text = (TextView) viewInput.findViewById(R.id.text12);
-                    text.setText("Edicion Exitosa");
+            if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
-                    Toast toast = new Toast(context);
-                    //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.setView(viewInput);
-                    toast.show();
+                if (idFoto.isEmpty()) {
+                    cantid = BaseDeDatos.update("categoria", registro, "id_categoria= " + Integer.parseInt(idCategoria), null);
+                    BaseDeDatos.close();
+                    if (cantid == 1) {
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                        TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                        text.setText("Edicion Exitosa");
+
+                        Toast toast = new Toast(context);
+                        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(viewInput);
+                        toast.show();
+                    }
+                    wsEdit edit = new wsEdit(context);
+                    edit.wsEditarTabla("update_Categoria.php?id_categoria=" + idCategoria + "&categoria=" + categoria + "&Descripcion=" + descripcion);
+
+                } else {
+                    MainActivityRegistroCategorias result = new MainActivityRegistroCategorias();
+                    result.Devolver(context, idFoto, idCategoria, registro, x, BaseDeDatos);
+
+
                 }
-                wsEdit edit = new wsEdit(context);
-                edit.wsEditarTabla("update_Categoria.php?id_categoria=" + idCategoria + "&categoria=" + categoria + "&Descripcion=" + descripcion);
-
             } else {
-                MainActivityRegistroCategorias result = new MainActivityRegistroCategorias();
-                result.Devolver(context, idFoto, idCategoria, registro, x, BaseDeDatos);
-
-
+                Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -103,35 +112,37 @@ public class EditarTabla {
             registro.put("id_categoria", "" + cat_id_sp);
             registro.put("cantidadMinima", "" + cant_min);
 
-            if (num_id.isEmpty()) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-                TextView text = (TextView) viewInput.findViewById(R.id.text12);
-                text.setText("Edicion Exitosa");
+            if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
-                Toast toast = new Toast(context);
-                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(viewInput);
-                toast.show();
-                cantid = BaseDeDatos.update("producto", registro, "id_producto= " + Integer.parseInt(id_producto_extra), null);
+                if (num_id.isEmpty()) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+                    TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                    text.setText("Edicion Exitosa");
+                    Toast toast = new Toast(context);
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(viewInput);
+                    toast.show();
+                    cantid = BaseDeDatos.update("producto", registro, "id_producto= " + Integer.parseInt(id_producto_extra), null);
 
-                BaseDeDatos.close();
-                wsEdit edit = new wsEdit(context);
-                edit.wsEditarTabla("update_Producto.php?" +
-                        "id_producto=" + Integer.parseInt(id_producto_extra) + "&producto=" + nombre + "&costo=" + costo
-                        + "&ventaMenudeo=" + menudeo + "&ventaMayoreo=" + mayoreo + "&marca=" + marca
-                        + "&color=" + color + "&unidadMedida=" + unidad_med + "&categoria_nombre=" + cat_nombre_sp
-                        + "&id_categoria=" + cat_id_sp + "&cantidadMinima=" + cant_min);
+                    BaseDeDatos.close();
+                    wsEdit edit = new wsEdit(context);
+                    edit.wsEditarTabla("update_Producto.php?" +
+                            "id_producto=" + Integer.parseInt(id_producto_extra) + "&producto=" + nombre + "&costo=" + costo
+                            + "&ventaMenudeo=" + menudeo + "&ventaMayoreo=" + mayoreo + "&marca=" + marca
+                            + "&color=" + color + "&unidadMedida=" + unidad_med + "&categoria_nombre=" + cat_nombre_sp
+                            + "&id_categoria=" + cat_id_sp + "&cantidadMinima=" + cant_min);
 
 
-                return cantid;
+                    return cantid;
+                } else {
+                    MainActivityRegistroProductos result = new MainActivityRegistroProductos();
+                    result.Devolver(context, num_id, id_producto_extra, registro, x, BaseDeDatos);
+                }
+
             } else {
-                MainActivityRegistroProductos result = new MainActivityRegistroProductos();
-                result.Devolver(context, num_id, id_producto_extra, registro, x, BaseDeDatos);
-
-
+                Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
@@ -172,37 +183,43 @@ public class EditarTabla {
             registro.put("ApellidoMaterno", ApellidoMaterno);
             registro.put("TipoCompra", TipoCompra);
 
-            if (num_id.isEmpty()) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
-                TextView text = (TextView) viewInput.findViewById(R.id.text12);
-                text.setText("Edicion Exitosa");
+                if (num_id.isEmpty()) {
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-                Toast toast = new Toast(context);
-                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(viewInput);
-                toast.show();
-                cantid = BaseDeDatos.update("clientes", registro,
-                        "id_cliente= " + Integer.parseInt(idClienteExtra), null);
+                    TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                    text.setText("Edicion Exitosa");
 
-                BaseDeDatos.close();
-                wsEdit edit = new wsEdit(context);
-                edit.wsEditarTabla("update_Usuario.php?" +
-                        "id_cliente=" + idClienteExtra + "&Nombre=" + Nombre + "&Calle=" + Calle + "&Numero=" + Numero
-                        + "&Interior=" + Interior + "&Codigo_Postal=" + Codigo_Postal + "&Colonia=" + Colonia
-                        + "&Municipio=" + Municipio + "&Estado=" + Estado + "&Alias=" + Alias
-                        + "&Lada=" + Lada + "&Telefono=" + Telefono + "&status='Activo'"
-                        + "&TipoTelefono=" + tipoTelefono + "&ApellidoPaterno=" + ApellidoPaterno + "&ApellidoMaterno=" + ApellidoMaterno
-                        + "&TipoCompra=" + TipoCompra);
+                    Toast toast = new Toast(context);
+                    //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(viewInput);
+                    toast.show();
+                    cantid = BaseDeDatos.update("clientes", registro,
+                            "id_cliente= " + Integer.parseInt(idClienteExtra), null);
 
-                return cantid;
+                    BaseDeDatos.close();
+                    wsEdit edit = new wsEdit(context);
+                    edit.wsEditarTabla("update_Usuario.php?" +
+                            "id_cliente=" + idClienteExtra + "&Nombre=" + Nombre + "&Calle=" + Calle + "&Numero=" + Numero
+                            + "&Interior=" + Interior + "&Codigo_Postal=" + Codigo_Postal + "&Colonia=" + Colonia
+                            + "&Municipio=" + Municipio + "&Estado=" + Estado + "&Alias=" + Alias
+                            + "&Lada=" + Lada + "&Telefono=" + Telefono + "&status='Activo'"
+                            + "&TipoTelefono=" + tipoTelefono + "&ApellidoPaterno=" + ApellidoPaterno + "&ApellidoMaterno=" + ApellidoMaterno
+                            + "&TipoCompra=" + TipoCompra);
+
+                    return cantid;
+                } else {
+                    MainActivityRegistroUsuario result = new MainActivityRegistroUsuario();
+                    result.Devolver(context, num_id, idClienteExtra, registro, x, BaseDeDatos);
+
+
+                }
+
             } else {
-                MainActivityRegistroUsuario result = new MainActivityRegistroUsuario();
-                result.Devolver(context, num_id, idClienteExtra, registro, x, BaseDeDatos);
-
-
+                Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
@@ -243,40 +260,47 @@ public class EditarTabla {
         registro.put("Correo", correo);
         registro.put("Descripcion", "" + descripcion);
 
-        int cantid = BaseDeDatos.update("negocio", registro,
-                "idNegocio=" + idNegocio, null);
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_Negocio.php?" +
-                "idNegocio=" + idNegocio + "&Nombre=" + Nombre + "&Calle=" + Calle + "&Numero=" + Numero
-                + "&Interior=" + Interior + "&Codigo_Postal=" + Codigo_Postal + "&Colonia=" + Colonia
-                + "&Municipio=" + Municipio + "&Estado=" + Estado
-                + "&Lada=" + Lada + "&Telefono=" + Telefono
-                + "&TipoTelefono=" + tipoTelefono + "&TipoCompra=" + TipoCompra + "&Id_Foto=" + num_id + "&Correo=" + correo
-                + "&Descripcion=" + descripcion);
-        if (cantid == 1) {
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
+            int cantid = BaseDeDatos.update("negocio", registro,
+                    "idNegocio=" + idNegocio, null);
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_Negocio.php?" +
+                    "idNegocio=" + idNegocio + "&Nombre=" + Nombre + "&Calle=" + Calle + "&Numero=" + Numero
+                    + "&Interior=" + Interior + "&Codigo_Postal=" + Codigo_Postal + "&Colonia=" + Colonia
+                    + "&Municipio=" + Municipio + "&Estado=" + Estado
+                    + "&Lada=" + Lada + "&Telefono=" + Telefono
+                    + "&TipoTelefono=" + tipoTelefono + "&TipoCompra=" + TipoCompra + "&Id_Foto=" + num_id + "&Correo=" + correo
+                    + "&Descripcion=" + descripcion);
+            if (cantid == 1) {
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            BaseDeDatos.close();
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Registro Exitoso");
+
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+
+                BaseDeDatos.close();
 
 
-            if (!num_id.isEmpty()) {
-                if (db.deleteImage(x, String.valueOf(idNegocio))) {
-                    if (db.insertimage(x, num_id, String.valueOf(idNegocio))) {
+                if (!num_id.isEmpty()) {
+                    if (db.deleteImage(x, String.valueOf(idNegocio))) {
+                        if (db.insertimage(x, num_id, String.valueOf(idNegocio))) {
 
+                        }
                     }
                 }
             }
+
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -311,44 +335,49 @@ public class EditarTabla {
         registro.put("ApellidoMaterno", ApellidoMaterno);
         registro.put("Id_Foto", num_id.trim());
 
-        int cantid = BaseDeDatos.update("clientes", registro,
-                "id_cliente=" + idCliente, null);
 
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_Usuario.php?" +
-                "id_cliente=" + idCliente + "&Nombre=" + Nombre + "&Calle=" + Calle + "&Numero=" + Numero
-                + "&Interior=" + Interior + "&Codigo_Postal=" + Codigo_Postal + "&Colonia=" + Colonia
-                + "&Municipio=" + Municipio + "&Estado=" + Estado + "&Alias=" + Alias
-                + "&Lada=" + Lada + "&Telefono=" + Telefono
-                + "&TipoTelefono=" + tipoTelefono + "&ApellidoPaterno=" + ApellidoPaterno + "&ApellidoMaterno=" + ApellidoMaterno
-                + "&Id_Foto=" + num_id);
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
-        if (cantid == 1) {
+            int cantid = BaseDeDatos.update("clientes", registro,
+                    "id_cliente=" + idCliente, null);
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_Usuario.php?" +
+                    "id_cliente=" + idCliente + "&Nombre=" + Nombre + "&Calle=" + Calle + "&Numero=" + Numero
+                    + "&Interior=" + Interior + "&Codigo_Postal=" + Codigo_Postal + "&Colonia=" + Colonia
+                    + "&Municipio=" + Municipio + "&Estado=" + Estado + "&Alias=" + Alias
+                    + "&Lada=" + Lada + "&Telefono=" + Telefono
+                    + "&TipoTelefono=" + tipoTelefono + "&ApellidoPaterno=" + ApellidoPaterno + "&ApellidoMaterno=" + ApellidoMaterno
+                    + "&Id_Foto=" + num_id);
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Registro Exitoso");
+            if (cantid == 1) {
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            BaseDeDatos.close();
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Registro Exitoso");
+
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+
+                BaseDeDatos.close();
 
 
-            if (!num_id.isEmpty()) {
-                if (db.deleteImage(x, String.valueOf(idCliente))) {
-                    if (db.insertimage(x, num_id, String.valueOf(idCliente))) {
+                if (!num_id.isEmpty()) {
+                    if (db.deleteImage(x, String.valueOf(idCliente))) {
+                        if (db.insertimage(x, num_id, String.valueOf(idCliente))) {
 
+                        }
                     }
                 }
             }
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public int EditarUser(Context context, int codigo, String idNegocio, String TipoCompra) {
@@ -369,29 +398,34 @@ public class EditarTabla {
         registro.put("TipoCompra", TipoCompra);
         registro.put("idNegocio", idNegocio);
 
-        int cantid = BaseDeDatos.update("clientes", registro,
-                "id_cliente=" + Integer.parseInt("" + codigo), null);
 
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_UserTipoCompra.php?id_cliente=" + codigo
-                + "&idNegocio=" + idNegocio + "&TipoCompra=" + TipoCompra);
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
-        if (cantid == 1) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            int cantid = BaseDeDatos.update("clientes", registro,
+                    "id_cliente=" + Integer.parseInt("" + codigo), null);
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Edicion Exitosa");
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_UserTipoCompra.php?id_cliente=" + codigo
+                    + "&idNegocio=" + idNegocio + "&TipoCompra=" + TipoCompra);
+
+            if (cantid == 1) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Edicion Exitosa");
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+            } else {
+                Toast.makeText(context, "Modificacion negada", Toast.LENGTH_SHORT).show();
+            }
+            BaseDeDatos.close();
         } else {
-            Toast.makeText(context, "Modificacion negada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
-        BaseDeDatos.close();
-
 
         return cantid;
     }
@@ -407,30 +441,35 @@ public class EditarTabla {
         registro.put("cantidad", cantidad);
         // registro.put("cantidadDisponible",cantidadDisponible);
 
-        int cantid = BaseDeDatos.update("carrito", registro,
-                "idProducto=" + codigo + " and idticket=" + ticket, null);
-        String pro = "" + codigo;
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_CarritoCantidad.php?idticket=" + ticket + "&cantidad=" + cantidad + "&idProducto=" + pro);
+
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+
+            int cantid = BaseDeDatos.update("carrito", registro,
+                    "idProducto=" + codigo + " and idticket=" + ticket, null);
+            String pro = "" + codigo;
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_CarritoCantidad.php?idticket=" + ticket + "&cantidad=" + cantidad + "&idProducto=" + pro);
 
 
-        if (cantid == 1) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            if (cantid == 1) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("Edicion Exitosa");
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("Edicion Exitosa");
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+            } else {
+                //   Toast.makeText(context, "Modificacion negada", Toast.LENGTH_SHORT).show();
+            }
+            BaseDeDatos.close();
         } else {
-            //   Toast.makeText(context, "Modificacion negada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
-        BaseDeDatos.close();
-
 
         return cantid;
     }
@@ -445,14 +484,18 @@ public class EditarTabla {
 
         registro.put("cantidadMinima", Cantidadminima);
 
-        int cantid = BaseDeDatos.update("producto", registro,
-                "id_producto=" + codigo, null);
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_ProductoCantidad.php?id_producto=" + codigo + "&cantidadMinima=" + Cantidadminima);
 
-        BaseDeDatos.close();
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int cantid = BaseDeDatos.update("producto", registro,
+                    "id_producto=" + codigo, null);
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_ProductoCantidad.php?id_producto=" + codigo + "&cantidadMinima=" + Cantidadminima);
 
+            BaseDeDatos.close();
 
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
         return cantid;
     }
 
@@ -471,15 +514,20 @@ public class EditarTabla {
         registro.put("idDomicilio", idDomicilio);
         registro.put("cantidadDisponible", almacen);
         registro.put("Ticket", tk);
-        int cantid = BaseDeDatos.update("carrito", registro,
-                "idticket=" + Integer.parseInt(idProducto), null);
 
-        BaseDeDatos.close();
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_CarritoFinal.php?idticket=" + idProducto + "&fecha=" + fecha + "&hora="
-                + hora + "&solicitud=" + solicitud + "&idDomicilio=" + idDomicilio + "&cantidadDisponible=" + almacen + "&Ticket=" + tk);
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
+            int cantid = BaseDeDatos.update("carrito", registro,
+                    "idticket=" + Integer.parseInt(idProducto), null);
 
+            BaseDeDatos.close();
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_CarritoFinal.php?idticket=" + idProducto + "&fecha=" + fecha + "&hora="
+                    + hora + "&solicitud=" + solicitud + "&idDomicilio=" + idDomicilio + "&cantidadDisponible=" + almacen + "&Ticket=" + tk);
+
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+        }
         return cantid;
     }
 
@@ -493,20 +541,25 @@ public class EditarTabla {
         ContentValues registro = new ContentValues();
 
         registro.put("solicitud", status);
-        int cantid = BaseDeDatos.update("carrito", registro,
-                "Ticket='" + id + "' and idproveedor='" + id2 + "'", null);
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_CarritoStatus.php?Ticket=" + id + "&idproveedor=" + id2 + "&solicitud="
-                + status);
 
-        if (cantid >= 1) {
-            Toast.makeText(context, "1", Toast.LENGTH_SHORT).show();
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int cantid = BaseDeDatos.update("carrito", registro,
+                    "Ticket='" + id + "' and idproveedor='" + id2 + "'", null);
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_CarritoStatus.php?Ticket=" + id + "&idproveedor=" + id2 + "&solicitud="
+                    + status);
+
+            if (cantid >= 1) {
+                Toast.makeText(context, "1", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "2", Toast.LENGTH_SHORT).show();
+            }
+
+            BaseDeDatos.close();
+
         } else {
-            Toast.makeText(context, "2", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
-
-        BaseDeDatos.close();
-
 
         return cantid;
     }
@@ -520,19 +573,23 @@ public class EditarTabla {
         ContentValues registro = new ContentValues();
 
         registro.put("solicitud", status);
-        int cantid = BaseDeDatos.update("carrito", registro,
-                "Ticket='" + id + "' and idproveedor='" + id2 + "' and idUser='" + idUser + "'", null);
-        wsEdit edit = new wsEdit(context);
-        edit.wsEditarTabla("update_CarritoStatusUser.php?Ticket=" + id + "&idproveedor=" + id2 +"&idUser="+idUser
-                + "&solicitud="+ status);
-        if (cantid >= 1) {
+
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int cantid = BaseDeDatos.update("carrito", registro,
+                    "Ticket='" + id + "' and idproveedor='" + id2 + "' and idUser='" + idUser + "'", null);
+            wsEdit edit = new wsEdit(context);
+            edit.wsEditarTabla("update_CarritoStatusUser.php?Ticket=" + id + "&idproveedor=" + id2 + "&idUser=" + idUser
+                    + "&solicitud=" + status);
+            if (cantid >= 1) {
 //            Toast.makeText(context, "1", Toast.LENGTH_SHORT).show();
 //        }else{
 //            Toast.makeText(context, "2", Toast.LENGTH_SHORT).show();
+            }
+
+            BaseDeDatos.close();
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
-
-        BaseDeDatos.close();
-
 
         return cantid;
     }
@@ -560,14 +617,20 @@ public class EditarTabla {
             registro.put("municipio", municipio);
 
 
-            cantid = BaseDeDatos.update("domicilios", registro,
-                    "idUser= " + idUser, null);
 
-            BaseDeDatos.close();
-            wsEdit edit = new wsEdit(context);
-            edit.wsEditarTabla("update_Domicilios.php?idUser=" +idUser /*idUser*/ + "&NombreCompleto=" + NombreCompleto
-                    + "&Domicilio="+Domicilio + "&Colonia="+Colonia + "&Vecindario="+Vecindario
-                    + "&Celular="+Celular + "&CodigoPostal="+CodigoPostal + "&numero="+numero + "&municipio="+municipio);
+            if (isNetDisponible(context) == true && isOnlineNet() == true) {
+                cantid = BaseDeDatos.update("domicilios", registro,
+                        "idUser= " + idUser, null);
+
+                BaseDeDatos.close();
+                wsEdit edit = new wsEdit(context);
+                edit.wsEditarTabla("update_Domicilios.php?idUser=" + idUser /*idUser*/ + "&NombreCompleto=" + NombreCompleto
+                        + "&Domicilio=" + Domicilio + "&Colonia=" + Colonia + "&Vecindario=" + Vecindario
+                        + "&Celular=" + Celular + "&CodigoPostal=" + CodigoPostal + "&numero=" + numero + "&municipio=" + municipio);
+
+            } else {
+                Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
+            }
             return cantid;
 
 

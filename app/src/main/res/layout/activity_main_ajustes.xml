@@ -27,6 +27,7 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:foreground="?android:attr/selectableItemBackground"
+                android:padding="3dp"
                 app:srcCompat="@drawable/userajuste" />
 
             <ImageView
@@ -38,6 +39,7 @@
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:foreground="?android:attr/selectableItemBackground"
+                android:padding="3dp"
                 app:srcCompat="@drawable/tiendaajuste" />
         </LinearLayout>
 

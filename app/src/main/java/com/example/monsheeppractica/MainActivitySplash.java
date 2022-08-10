@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,50 +37,59 @@ public class MainActivitySplash extends AppCompatActivity {
 
         logo = (ImageView) findViewById(R.id.logo);
 
-        int count= 0;
-        for (int i = 0; i < NombreTablas().size(); i++) {
-            count++;
 
-            sqlite admin = new sqlite(this, "monsheep", null, 1);
-            SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
-//            if (!NombreTablas().get(i).toString().equals("images_categoria")) {
-                BaseDeDatos.delete(NombreTablas().get(i).toString(), "", null);
-//            }
-            wsDataDownload download = new wsDataDownload(this, MainActivitySplash.this);
-            download.cargarWebService(NombreTablas().get(i).toString());
-            //System.out.println(NombreTablas().get(i).toString());"clientes"
-             if (count == NombreTablas().size()){
-                        Toast.makeText(this, ""+count, Toast.LENGTH_SHORT).show();
-                        animacion2();
-                    }
-        }
-
+        animacion2();
         logo.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivityLogin.class);
-            startActivity(intent);
+           // Intent intent = new Intent(this, MainActivityLogin.class);
+//            startActivity(intent);
         });
 
     }
 
     private void animacion2() {
-        animatorx = ObjectAnimator.ofFloat(logo, "rotation", 0f, 360f);
-        animatorx.setDuration(2000);
-        animatorx.setRepeatCount(ObjectAnimator.INFINITE);
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(animatorx);
-        animatorSet.start();
-        splash();
+//        animatorx = ObjectAnimator.ofFloat(logo, "rotation", 0f, 360f);
+//        //animatorx.setDuration(2000);
+//       // animatorx.setRepeatCount(1);
+//        animatorx.setRepeatCount(ObjectAnimator.INFINITE);
+//        ObjectAnimator animX = ObjectAnimator.ofFloat(logo, "x", 50f);
+//        ObjectAnimator animY = ObjectAnimator.ofFloat(logo, "y", 50f);
+//        AnimatorSet animatorSet = new AnimatorSet();
+//        animatorSet.playTogether(animatorx);//,animX,animY);
+//        animatorSet.start();
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.ivgirar);
+        animation.setDuration(1500);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(getApplicationContext(), MainActivityLogin.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        logo.startAnimation(animation);
+
+
 
     }
 
     private void splash() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), MainActivityLogin.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 2500);
+        Intent intent = new Intent(getApplicationContext(), MainActivityLogin.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//        new Handler().postDelayed(() -> {
+//
+//        }, 5000);
     }
 }

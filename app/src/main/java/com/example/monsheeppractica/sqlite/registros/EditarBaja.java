@@ -1,5 +1,8 @@
 package com.example.monsheeppractica.sqlite.registros;
 
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,26 +32,30 @@ public class EditarBaja {
         registro.put("id_categoria", "baja");
         registro.put("status", "baja");
 
-        int cantid = BaseDeDatos.update("producto", registro, "id_producto= " + id_producto, null);
 
-        BaseDeDatos.close();
+        if (isNetDisponible(context) == true && isOnlineNet() == true) {
+            int cantid = BaseDeDatos.update("producto", registro, "id_producto= " + id_producto, null);
 
-        if ( cantid == 1) {
-            //aTrabajar();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
+            BaseDeDatos.close();
 
-            TextView text = (TextView) viewInput.findViewById(R.id.text12);
-            text.setText("se ha dado de baja");
+            if ( cantid == 1) {
+                //aTrabajar();
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View viewInput = inflater.inflate(R.layout.toast_layout, null, false);
 
-            Toast toast = new Toast(context);
-            //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(viewInput);
-            toast.show();
-        }else {
-            Toast.makeText(context, "Categoria no existe", Toast.LENGTH_SHORT).show();
+                TextView text = (TextView) viewInput.findViewById(R.id.text12);
+                text.setText("se ha dado de baja");
+
+                Toast toast = new Toast(context);
+                //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(viewInput);
+                toast.show();
+            }else {
+                Toast.makeText(context, "Categoria no existe", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, "Sin Red", Toast.LENGTH_SHORT).show();
         }
-
     }
 }

@@ -68,13 +68,12 @@ public class MainActivityEstadisticas extends AppCompatActivity {
         tvDetalleGraph2 = findViewById(R.id.tvDetalleGraph2);
         rvColor = findViewById(R.id.rvColor);
 
-
         listaColores.clear();
         listaCantidad.clear();
         lista.clear();
         carritolista.clear();
         ConsultarTabla consultarTabla = new ConsultarTabla(this);
-        consultarTabla.CarritoConsulta(carritolista, "idNegocio", "" + idNegocio, "", "");
+        consultarTabla.CarritoConsulta(carritolista, "Estadistica", "" + idNegocio, "", "");
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -129,11 +128,6 @@ public class MainActivityEstadisticas extends AppCompatActivity {
 
                 n = String.valueOf(listaCantidad.get(i)).length();
                 System.out.println(getLastN(lista.get(i), n));
-//                Toast.makeText(this, "" + listaCantidad.get(i) + "\n" + Collections.max(listaCantidad) + "\n" + Collections.min(listaCantidad), Toast.LENGTH_SHORT).show();
-//                n =  Collections.max(listaCantidad) //+ Integer.parseInt(getLastN(lista.get(i), n));
-//                Toast.makeText(this, "" + n, Toast.LENGTH_SHORT).show();
-
-//                    tvDestallesGraph.setText(""+lista.get(i));
                 if (Collections.max(listaCantidad).equals(Integer.parseInt(getLastN(lista.get(i), n)))) {
                     tvDestallesGraph.setText("" + lista.get(i));
                 }
@@ -148,7 +142,6 @@ public class MainActivityEstadisticas extends AppCompatActivity {
                 pieChart.addPieSlice(pieModel);
 
            }
-
 
             pieChart.setShowDecimal(true);
             pieChart.setLegendTextSize(20);
