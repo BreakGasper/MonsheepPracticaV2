@@ -164,7 +164,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public String getImagen(String ruta){
 
 
-        String path= "https://monsheep.000webhostapp.com/Moonsheep/imagenes/"+ ruta;
+        String path= ip+"/Moonsheep/imagenes/"+ ruta;
         //Toast.makeText(context, ""+path+ ruta, Toast.LENGTH_SHORT).show();
 
         return path;

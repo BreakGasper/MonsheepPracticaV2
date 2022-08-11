@@ -45,7 +45,8 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
     List<String>listConsejos = Arrays.asList("Preciona el icono del carrito para agregarlos a tu lista.", "Antes de hacer un pedido revisa el provedor"
             , "No es necesario hacer un pedido, puedes comparar precios asi ahorrar gastos"
             ,"No compartas tus datos personales externos a la app","Puedes contactar a los negocios por medio whatsapp o llamada");
-   static public String ip = "https://monsheep.000webhostapp.com/";
+//   static public String ip = "https://monsheep.000webhostapp.com/";//https://moonsheep-com.preview-domain.com/
+    static public String ip = "https://moonsheep.ga/";///82.180.138.54
     String tables = "0";
     Random aleatorio = new Random();
     public wsDataDownload(Context context) {

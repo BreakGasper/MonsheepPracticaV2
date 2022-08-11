@@ -198,7 +198,6 @@ public class MonsheepFragment extends Fragment {
 
             for (int i = 0; i < NombreTablas().size(); i++) {
 
-
                 sqlite admin = new sqlite(getActivity(), "monsheep", null, 1);
                 SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
                 BaseDeDatos.delete(NombreTablas().get(i).toString(), "", null);

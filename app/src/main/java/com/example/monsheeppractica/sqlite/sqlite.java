@@ -73,4 +73,45 @@ public class sqlite extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+
+    /*
+    CREATE TABLE categoria (id_categoria  int   , categoria text, Descripcion text, Id_Foto text, status text, idproducto text,id int primary key AUTO_INCREMENT);
+CREATE TABLE producto (id_producto int , producto text, costo text,
+            ventaMenudeo text,ventaMayoreo text,marca text,color text,unidadMedida text
+            , categoria_nombre text, id_categoria text, Id_Foto text, status text, cantidadMinima text, idFotoUser text
+            , NombreUser text, idUser text, idNegocio text, fecha text, hora text,id int  primary key AUTO_INCREMENT);
+CREATE TABLE clientes (id_cliente int  , Nombre text, ApellidoPaterno text,
+            ApellidoMaterno text,TipoCompra text, Calle text, Numero text, Interior text, Codigo_Postal text,
+            Colonia text,Municipio text
+            , Estado text, Lada text, Telefono text,
+            status text, TipoTelefono text, Alias text,
+            Id_Foto text,Contra text,idNegocio text,id int  primary key AUTO_INCREMENT);
+
+ CREATE TABLE comentario (id_comentario int , comentario text, nombreUser text,
+            idProducto text,idUser text, nombreProducto text, urlFoto text, status text, fecha text, hora text,id int  primary key AUTO_INCREMENT);
+
+ CREATE TABLE seguir (idSeguir int  , idUser text, idSeguidor text,
+            nombreSeguidor text, status text,id int  primary key AUTO_INCREMENT);
+
+CREATE TABLE negocio (idNegocio int  ,idUser int, Nombre text ,
+             TipoCompra text, Calle text, Numero text, Interior text, Codigo_Postal text,
+            Colonia text,Municipio text
+            , Estado text, Lada text, Telefono text, status text, TipoTelefono text ,
+             Id_Foto text,Contra text,Correo text,Descripcion text,id int primary key AUTO_INCREMENT);
+
+CREATE TABLE carrito (idticket int  , idUser text, Productos text,
+            cantidad text,precio text,idproveedor text, status text,idProducto text, fecha text, hora text,cantidadDisponible text,solicitud text,idDomicilio text,Ticket text,id int  primary key AUTO_INCREMENT);
+
+ Create table domicilios(idDomicilio int  , idUser text,NombreCompleto text,Domicilio text, Colonia text,Vecindario text,Celular text,CodigoPostal text, numero text, municipio text,id int primary key AUTO_INCREMENT);
+
+Create table roll(idPromo int, fecha text,Hora text,oferta text, status text,dato text,id int primary key AUTO_INCREMENT);
+
+Create table images_categoria(id_foto int, img blob not null, id_Catego text, id int primary key AUTO_INCREMENT);
+
+
+
+
+
+     */
 }

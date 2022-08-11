@@ -1,5 +1,7 @@
 package com.example.monsheeppractica.WebService;
 
+import static com.example.monsheeppractica.WebService.wsDataDownload.ip;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
@@ -25,7 +27,7 @@ public class wsInsert {
     JsonObjectRequest jsonObjectRequest;
     Context context;
     ProgressDialog progreso;
-    String ip="https://monsheep.000webhostapp.com/";
+   // String ip="https://monsheep.000webhostapp.com/";
     public wsInsert(Context context) {
         this.context = context;
     }
