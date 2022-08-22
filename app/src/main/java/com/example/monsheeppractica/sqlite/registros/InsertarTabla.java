@@ -291,7 +291,7 @@ public class InsertarTabla {
             , String Municipio, String Estado, String Alias,
                                  String Lada, String Telefono, String tipoTelefono, String ApellidoPaterno
             , String ApellidoMaterno, String TipoCompra, String num_id
-            , String x, String Contra, String idNegocio) {
+            , String x, String Contra, String idNegocio, String correo) {
 
         db = new DatabaseHandler(context);
         sqlite usuarios = new sqlite(context, "monsheep", null, 1);
@@ -321,6 +321,7 @@ public class InsertarTabla {
         registro.put("Id_Foto", num_id.trim());
         registro.put("Contra", "" + Contra);
         registro.put("idNegocio", "" + idNegocio);
+        registro.put("correo", "" + correo);
 
         ArrayList list = new ArrayList();
         list.add("id_cliente");
@@ -343,6 +344,7 @@ public class InsertarTabla {
         list.add("Id_Foto");
         list.add("Contra");
         list.add("idNegocio");
+        list.add("correo");
 
         ArrayList listdata = new ArrayList();
         listdata.add(idCliente);
@@ -365,6 +367,7 @@ public class InsertarTabla {
         listdata.add(num_id);
         listdata.add(Contra);
         listdata.add(idNegocio);
+        listdata.add(correo);
 
         if (isNetDisponible(context) == true && isOnlineNet() == true) {
             BaseDeDatos.insert("clientes", null, registro);

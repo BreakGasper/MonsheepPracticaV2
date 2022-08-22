@@ -310,7 +310,7 @@ public class EditarTabla {
             , String Municipio, String Estado, String Alias,
                              String Lada, String Telefono, String tipoTelefono, String ApellidoPaterno
             , String ApellidoMaterno, String TipoCompra, String num_id
-            , String x) {
+            , String x,String correo) {
 
         db = new DatabaseHandler(context);
         sqlite usuarios = new sqlite(context, "monsheep", null, 1);
@@ -334,7 +334,7 @@ public class EditarTabla {
         registro.put("ApellidoPaterno", ApellidoPaterno);
         registro.put("ApellidoMaterno", ApellidoMaterno);
         registro.put("Id_Foto", num_id.trim());
-
+        registro.put("correo", correo.trim());
 
         if (isNetDisponible(context) == true && isOnlineNet() == true) {
 
@@ -348,7 +348,7 @@ public class EditarTabla {
                     + "&Municipio=" + Municipio + "&Estado=" + Estado + "&Alias=" + Alias
                     + "&Lada=" + Lada + "&Telefono=" + Telefono
                     + "&TipoTelefono=" + tipoTelefono + "&ApellidoPaterno=" + ApellidoPaterno + "&ApellidoMaterno=" + ApellidoMaterno
-                    + "&Id_Foto=" + num_id);
+                    + "&Id_Foto=" + num_id+"&correo="+correo.trim());
 
             if (cantid == 1) {
 

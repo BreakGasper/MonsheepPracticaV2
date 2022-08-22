@@ -59,7 +59,7 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
     EditText etNombre, etCalle, etNumero, etInterior,
             etCp, etColonia, etEstado,
             etAlias, etLada, etTelefono, etApellidoPaterno,
-            etApellidoMaterno, etContra, etRepContra;
+            etApellidoMaterno, etContra, etRepContra,etCorreo;
 
     Button btnGuardar;
     String[] tipoArrayTelefono = {"Fijo", "Celular"};
@@ -67,10 +67,12 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
     Spinner spTipoTelefono, spMunicipio;
     DatabaseHandler db;
     ImageView iv_foto;
-    String idClienteExtra, editar_extra, tipoTelefonoExtra, NombreExtra, CalleExtra, NumeroExtra, InteriorExtra, CodigoPostalExtra, ColoniaExtra, MunicipioExtra, EstadoExtra, AliasExtra, LadaExtra, TeléfonoExtra, ApellidoPaternoExtra, ApellidoMaternoExtra, TipoCompraExtra, Id_Foto_extra;
+    String idClienteExtra, editar_extra, tipoTelefonoExtra,
+            NombreExtra, CalleExtra, NumeroExtra, InteriorExtra,
+            CodigoPostalExtra, ColoniaExtra, MunicipioExtra, EstadoExtra, AliasExtra, LadaExtra, TeléfonoExtra, ApellidoPaternoExtra, ApellidoMaternoExtra, TipoCompraExtra, Id_Foto_extra;
 
     String Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio = "San Martín Hidalgo",
-            Estado, Alias, Lada, Teléfono, TipoCompra = "basico", ApellidoPaterno, ApellidoMaterno, Contra;
+            Estado, Alias, Lada, Teléfono, TipoCompra = "basico", ApellidoPaterno, ApellidoMaterno, Contra,correo;
 
     String tipoTelefono = "Fijo";
     int idCliente;
@@ -105,7 +107,7 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
 
         try {
 
-
+            etCorreo = (EditText) findViewById(R.id.etCorreo);
             etNombre = (EditText) findViewById(R.id.etNombreCliente);
             etCalle = (EditText) findViewById(R.id.etCalleCliente);
             etNumero = (EditText) findViewById(R.id.etNumeroCliente);
@@ -466,7 +468,7 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
         ApellidoPaterno = etApellidoPaterno.getText().toString();
         ApellidoMaterno = etApellidoMaterno.getText().toString();
         Contra = etContra.getText().toString();
-
+        correo = etCorreo.getText().toString();
 
     }
 
@@ -483,7 +485,7 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
             InsertarTabla insert = new InsertarTabla();
             insert.RegistrarUsuario(this, idCliente, Nombre, Calle, Numero, Interior, Codigo_Postal,
                     Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno,
-                    TipoCompra, num_id, x, Contra.trim(), "0");
+                    TipoCompra, num_id, x, Contra.trim(), "0", correo);
 
             if (isNetDisponible(this) == true && isOnlineNet() == true) {
                 finish();
@@ -670,9 +672,11 @@ public class MainActivityRegistroUsuario extends AppCompatActivity {
                                         if (!Teléfono.isEmpty() && Teléfono.length() == 10) {//Son mu
                                             if (etContra.getText().toString().trim().equals(etRepContra.getText().toString().toString().trim())) {
                                                 if (!etAlias.getText().toString().isEmpty()) {
-                                                    if (Nombre.equals(NombreExtra)) {
-                                                        Editar();
-                                                    } else lista_query_sin_duplicados();
+                                                    if (!etCorreo.getText().toString().isEmpty()) {
+                                                        if (Nombre.equals(NombreExtra)) {
+                                                            Editar();
+                                                        } else lista_query_sin_duplicados();
+                                                    } else etCorreo.setError("Agrega tu correo Electronico");
                                                 } else etAlias.setError("Agrega un alias");
                                             } else
                                                 etRepContra.setError("Las contraseñas no coinciden");

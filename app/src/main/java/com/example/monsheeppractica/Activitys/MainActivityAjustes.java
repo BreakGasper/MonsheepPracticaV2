@@ -63,7 +63,7 @@ public class MainActivityAjustes extends AppCompatActivity {
     EditText etNombre, etCalle, etNumero, etInterior,
             etCp, etColonia, etEstado,
             etAlias, etLada, etTelefono, etApellidoPaterno,
-            etApellidoMaterno, etContra, etRepContra, etDescripcion, etCorreo;
+            etApellidoMaterno, etContra, etRepContra, etDescripcion, etCorreo, etCorreoUser;
     TextInputLayout tilAMaterno, tilAPaterno, tilAlias, tilDescripcion, tilCorreo;
     Spinner spTipoTelefono, spMunicipio;
     Button btnGuardar;
@@ -129,6 +129,7 @@ public class MainActivityAjustes extends AppCompatActivity {
         btnGuardar = (Button) findViewById(R.id.btnGuardarEdit);
         spTipoTelefono = (Spinner) findViewById(R.id.spTipoTelefonoEdit);
         etCorreo = findViewById(R.id.etCorreoEdit);
+        etCorreoUser = findViewById(R.id.etCorreo);
         iv_foto = (ImageView) findViewById(R.id.ivFotoEdit);
         tilAlias = findViewById(R.id.tILA);
         tilCorreo = findViewById(R.id.tILCorreo);
@@ -241,7 +242,7 @@ public class MainActivityAjustes extends AppCompatActivity {
                 if (pass.trim().equals(etPass2.getText().toString().trim())) {
                     EditarTabla editarTabla = new EditarTabla();
                     if (edit.equals("user")) {
-                        editarTabla.EditarPerfil(this, Integer.parseInt(idUser), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x);
+                        editarTabla.EditarPerfil(this, Integer.parseInt(idUser), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x,etCorreoUser.getText().toString());
 
                     } else if (edit.equals("negocio")) {
                         editarTabla.EditarPerfilNegocio(this, Integer.parseInt(idNegocio), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x, descrip, correo);
@@ -268,7 +269,7 @@ public class MainActivityAjustes extends AppCompatActivity {
     void LlenarDatosUSer() {
         Informacion = new EditText[]{
                 etNombre, etCalle, etNumero, etInterior, etCp, etColonia, etEstado
-                , etAlias, etLada, etTelefono, etApellidoPaterno, etApellidoMaterno};
+                , etAlias, etLada, etTelefono, etApellidoPaterno, etApellidoMaterno,etCorreoUser};
         edit = "user";
         clientesArrayList.clear();
         ConsultarTabla consultarTabla = new ConsultarTabla(this);
@@ -286,6 +287,7 @@ public class MainActivityAjustes extends AppCompatActivity {
         etAlias.setText("" + c.getAlias());
         etLada.setText("" + c.getLada());
         etTelefono.setText("" + c.getTeléfono());
+        etCorreoUser.setText(""+c.getCorreo());
         etTelefono.setEnabled(false);
         etLada.setEnabled(false);
         tilDescripcion.setVisibility(View.GONE);

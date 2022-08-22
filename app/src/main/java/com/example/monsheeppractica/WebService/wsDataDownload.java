@@ -142,6 +142,7 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
                 list.add("Id_Foto");
                 list.add("Contra");
                 list.add("idNegocio");
+                list.add("correo");
                 list.add("id");
                 break;
             case "comentario":

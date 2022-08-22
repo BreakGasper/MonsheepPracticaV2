@@ -24,7 +24,7 @@ public class sqlite extends SQLiteOpenHelper {
             "Colonia text,Municipio text" +
             ", Estado text, Lada text, Telefono text, " +
             "status text, TipoTelefono text, Alias text, " +
-            "Id_Foto text,Contra text,idNegocio text,id int  primary key)";//, idFotoNegocio text
+            "Id_Foto text,Contra text,idNegocio text,correo text,id int  primary key)";//, idFotoNegocio text
 
     public String Comentario = "CREATE TABLE comentario (id_comentario int , comentario text, nombreUser text," +
             "idProducto text,idUser text, nombreProducto text, urlFoto text, status text, fecha text, hora text,id int  primary key)";
@@ -86,7 +86,7 @@ CREATE TABLE clientes (id_cliente int  , Nombre text, ApellidoPaterno text,
             Colonia text,Municipio text
             , Estado text, Lada text, Telefono text,
             status text, TipoTelefono text, Alias text,
-            Id_Foto text,Contra text,idNegocio text,id int  primary key AUTO_INCREMENT);
+            Id_Foto text,Contra text,idNegocio text,correo text,id int  primary key AUTO_INCREMENT);
 
  CREATE TABLE comentario (id_comentario int , comentario text, nombreUser text,
             idProducto text,idUser text, nombreProducto text, urlFoto text, status text, fecha text, hora text,id int  primary key AUTO_INCREMENT);
@@ -112,6 +112,18 @@ Create table images_categoria(id_foto int, img blob not null, id_Catego text, id
 
 
 
+---------------------------------------------------------------------------------------------------------
+
+
+  Create table usuarios(id_usuario int primary key Auto_increment,nombre text,celular text,contra text, terminos_condiciones text,sexo text,tipo_user text);
+
+    Create table ticket(id_ticket int primary key Auto_increment,pedido text,precio text,fecha text, hora text,usuario text, localidad text,domicilio text,referencia text
+    ,id_user int,tipo_pedido text,entregado text);
+
+    Create table promocion(id_promo int primary key Auto_increment,pizzas text,bebida text,fecha_caduca text, fecha_creacion text,precio text,estado text,calzone text
+    ,nombre_promo text,desc_promo text,photo_promo text);
+
+    Create table cupones(codigo_cupon text,descuento text,fecha_caduca text, fecha_creacion text,estado text, id int primary key Auto_increment );
 
      */
 }

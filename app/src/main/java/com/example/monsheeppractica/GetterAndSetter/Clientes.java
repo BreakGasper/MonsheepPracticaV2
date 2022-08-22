@@ -4,34 +4,30 @@ public class Clientes {
 
     int id_cliente;
     String Nombre,ApellidoPaterno,ApellidoMaterno,TipoCompra,Calle,Numero,Interior,Codigo_Postal,Colonia,
-            Municipio,Estado,Lada,Teléfono,status,TipoTelefono,Alias,Id_Foto,Contra,idNegocio ;
+            Municipio,Estado,Lada,Teléfono,status,TipoTelefono,Alias,Id_Foto,Contra,idNegocio, correo;
 
-    public Clientes(int id_cliente, String nombre, String apellidoPaterno,
-                    String apellidoMaterno, String tipoCompra, String calle,
-                    String numero, String interior, String codigo_Postal, String colonia,
-                    String municipio, String estado, String lada, String teléfono, String status,
-                    String tipoTelefono, String alias, String id_Foto, String Contra, String idNegocio) {
-
+    public Clientes(int id_cliente, String nombre, String apellidoPaterno, String apellidoMaterno, String tipoCompra, String calle, String numero, String interior, String codigo_Postal, String colonia, String municipio, String estado, String lada, String teléfono, String status, String tipoTelefono, String alias, String id_Foto, String contra, String idNegocio, String correo) {
         this.id_cliente = id_cliente;
-        this.Nombre = nombre;
-        this.ApellidoPaterno = apellidoPaterno;
-        this.ApellidoMaterno = apellidoMaterno;
-        this.TipoCompra = tipoCompra;
-        this.Calle = calle;
-        this.Numero = numero;
-        this.Interior = interior;
-        this.Codigo_Postal = codigo_Postal;
-        this.Colonia = colonia;
-        this.Municipio = municipio;
-        this.Estado = estado;
-        this.Lada = lada;
-        this.Teléfono = teléfono;
+        Nombre = nombre;
+        ApellidoPaterno = apellidoPaterno;
+        ApellidoMaterno = apellidoMaterno;
+        TipoCompra = tipoCompra;
+        Calle = calle;
+        Numero = numero;
+        Interior = interior;
+        Codigo_Postal = codigo_Postal;
+        Colonia = colonia;
+        Municipio = municipio;
+        Estado = estado;
+        Lada = lada;
+        Teléfono = teléfono;
         this.status = status;
-        this.TipoTelefono = tipoTelefono;
-        this.Alias = alias;
-        this.Id_Foto = id_Foto;
-        this.Contra = Contra;
-        this.idNegocio=idNegocio;
+        TipoTelefono = tipoTelefono;
+        Alias = alias;
+        Id_Foto = id_Foto;
+        Contra = contra;
+        this.idNegocio = idNegocio;
+        this.correo = correo;
     }
 
     public int getId_cliente() {
@@ -192,5 +188,13 @@ public class Clientes {
 
     public void setIdNegocio(String idNegocio) {
         this.idNegocio = idNegocio;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }
