@@ -41,7 +41,7 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
     Context context;
     RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-    ProgressDialog progreso;
+    //ProgressDialog progreso;
     List<String>listConsejos = Arrays.asList("Preciona el icono del carrito para agregarlos a tu lista.", "Antes de hacer un pedido revisa el provedor"
             , "No es necesario hacer un pedido, puedes comparar precios asi ahorrar gastos"
             ,"No compartas tus datos personales externos a la app","Puedes contactar a los negocios por medio whatsapp o llamada");
@@ -61,17 +61,18 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
 
         request = Volley.newRequestQueue(context);
         try {
-            progreso = new ProgressDialog(context);
-            progreso.setContentView(R.layout.progres_dialog);
-            TextView tvProgreso = progreso.findViewById(R.id.tv_progres);
-
-//            progreso.setMax(100);
-            progreso.setTitle("¡Obteniendo Catalogo Actual!");
-            progreso.setMessage("consejo: "+listConsejos.get(aleatorio.nextInt(listConsejos.size())));
-            tvProgreso.setText("Consejo: "+listConsejos.get(aleatorio.nextInt(listConsejos.size())));
-
-//            progreso.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progreso.show();
+//            progreso = new ProgressDialog(context);
+//           //
+//            // progreso.setContentView(R.layout.progres_dialog);
+//         //   TextView tvProgreso = progreso.findViewById(R.id.tv_progres);
+//
+////            progreso.setMax(100);
+//            progreso.setTitle("¡Obteniendo Catalogo Actual!");
+//            progreso.setMessage("consejo: "+listConsejos.get(aleatorio.nextInt(listConsejos.size())));
+//           // tvProgreso.setText("Consejo: "+listConsejos.get(aleatorio.nextInt(listConsejos.size())));
+//
+////            progreso.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//            progreso.show();
             String url = ip + "Moonsheep/extraer_DatosProductos.php?tabla=" + table;
             url = url.replace(" ", "%20");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
@@ -84,7 +85,7 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        progreso.hide();
+//        progreso.hide();
         System.out.println("Error: " + error);
         // Toast.makeText(context, "No se pudo consultar" + error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("ERROR", error.toString());
@@ -191,6 +192,7 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
                 list.add("Contra");
                 list.add("Correo");
                 list.add("Descripcion");
+                list.add("servicioDomicilio");
                 list.add("id");
                 break;
             case "producto":
@@ -219,7 +221,7 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
             case "roll":
                 list.add("idPromo");
                 list.add("fecha");
-                list.add("hora");
+                list.add("Hora");
                 list.add("oferta");
                 list.add("status");
                 list.add("dato");
@@ -269,10 +271,10 @@ public class wsDataDownload implements Response.Listener<JSONObject>, Response.E
                 jsonObject = json.getJSONObject(j);
                 DatosGuardando(j, Columnas(tables), tables, jsonObject);
             }
-            progreso.hide();
+//            progreso.hide();
         } catch (JSONException e) {
             e.printStackTrace();
-            progreso.hide();
+//            progreso.hide();
         }
     }
 

@@ -89,6 +89,7 @@ public class MainActivitySuperUser extends AppCompatActivity {
         ivRegisterPromo = findViewById(R.id.ivRegisterPromo);
         iv_foto = findViewById(R.id.ivRegisterPromo2);
         etPromo = findViewById(R.id.etPromo);
+        productosArrayList.clear();
         ConsultarTabla consultarTabla = new ConsultarTabla(this);
         lista.setAdapter(new Lista_productoAdaptador.listaP(this,
                 consultarTabla.ProductoConsulta(productosArrayList, "all", "", "")));
@@ -98,25 +99,22 @@ public class MainActivitySuperUser extends AppCompatActivity {
             RegistrarDato();
         });
 
-        ivRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivityRegistroCategorias.class);
-                startActivity(intent);
-                switch (like) {
-                    case "producto":
+        ivRegister.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivityRegistroCategorias.class);
+            startActivity(intent);
+            switch (like) {
+                case "producto":
 
-                        break;
-                    case "categoria":
+                    break;
+                case "categoria":
 
-                        break;
-                    case "negocio":
+                    break;
+                case "negocio":
 
-                        break;
-                    case "usuario":
+                    break;
+                case "usuario":
 
-                        break;
-                }
+                    break;
             }
         });
         txt_buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -170,7 +168,7 @@ public class MainActivitySuperUser extends AppCompatActivity {
                 id = String.valueOf(categoriasArrayList.get(i).getId_catgoria());
             }
             if (like.equals("usuario")) {
-                id = null;
+                id = String.valueOf(usuariosArrayList.get(i).getId_cliente());
             }
 
             Toast.makeText(MainActivitySuperUser.this, like + ": " + id, Toast.LENGTH_SHORT).show();
@@ -184,6 +182,7 @@ public class MainActivitySuperUser extends AppCompatActivity {
         Toast.makeText(this, "Selecciona un articulo de la lista: " + id, Toast.LENGTH_SHORT).show();
         if (!etPromo.getText().toString().isEmpty() && !id.equals(null)) {
             FechaYHoraActual();
+
             InsertarTabla insertarTabla = new InsertarTabla();
             insertarTabla.RegistrarPromocion(this, this, 0, fecha, hora,
                     "Activo", etPromo.getText().toString(), id);

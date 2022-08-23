@@ -39,7 +39,7 @@ public class wsEdit implements Response.Listener<JSONObject>, Response.ErrorList
             request.add(jsonObjectRequest);
         } catch (Exception e) {
             System.out.println("Edit: "+e);
-            Toast.makeText(context, "Error RN CARGAR WEBSERCIE 2 " + e, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Error RN CARGAR WEBSERCIE 2 " + e, Toast.LENGTH_SHORT).show();
         }
 
     }

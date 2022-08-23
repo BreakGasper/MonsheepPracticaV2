@@ -186,11 +186,12 @@ public class MainActivityNotificacionesNegocio extends AppCompatActivity {
 
         }
         if (id == R.id.itemgrafico) {
-//            if (datos) {
-            Intent intent = new Intent(this, MainActivityEstadisticas.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.left_in, R.anim.left_out);
-//            } else MSJ_TOAST();
+            //Toast.makeText(this, "Opcion no disponible", Toast.LENGTH_SHORT).show();
+            if (!datos) {
+                Intent intent = new Intent(this, MainActivityEstadisticas.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.left_in, R.anim.left_out);
+            } else MSJ_TOAST();
         }
 
 

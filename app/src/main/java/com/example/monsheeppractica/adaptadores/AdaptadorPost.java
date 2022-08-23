@@ -35,6 +35,7 @@ import com.example.monsheeppractica.sqlite.registros.InsertarTabla;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -207,8 +208,9 @@ public class AdaptadorPost extends RecyclerView.Adapter<AdaptadorPost.ViewHolder
         });
 
         DatabaseHandler db = new DatabaseHandler(context);
-        Picasso.get().load(db.getImagen(""+producto.getIdNegocio()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.ivPerfil);
-        Picasso.get().load(db.getImagen(""+producto.getId_producto()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.ivPost);
+
+        Picasso.get().load(db.getImagen(""+producto.getIdNegocio()+".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.ivPerfil);
+        Picasso.get().load(db.getImagen(""+producto.getId_producto()+".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.ivPost);
 
 //        viewHolder.ivPost.setImageBitmap(db.getimageID(""+producto.getId_producto()));///cornerImage.getRoundedCornerBitmap(originalBitmap,100));
 //        viewHolder.ivPerfil.setImageBitmap(db.getimageID(producto.getIdNegocio()));//cornerImage.getRoundedCornerBitmap(originalBitmap,100) cornerImage.getRoundedCornerBitmap(originalBitmap, context)]

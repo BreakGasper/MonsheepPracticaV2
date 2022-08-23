@@ -461,6 +461,13 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <CheckBox
+                    android:id="@+id/cbEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="CheckBoxServicio"
+                    android:text="¿Tienes Servicio a domicilio?" />
+
                 <Button
                     android:id="@+id/btnGuardarEdit"
                     android:layout_width="match_parent"

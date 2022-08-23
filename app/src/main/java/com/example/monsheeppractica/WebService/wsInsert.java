@@ -51,7 +51,7 @@ public class wsInsert {
 
             }
         }, error -> {
-            Toast.makeText(context, "Operaccion Erronea"+error, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "Operaccion Erronea"+error, Toast.LENGTH_SHORT).show();
             //android:usesCleartextTraffic="true"
         }){
             @Override

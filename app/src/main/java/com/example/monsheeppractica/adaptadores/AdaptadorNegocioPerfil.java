@@ -172,10 +172,13 @@ public class AdaptadorNegocioPerfil extends RecyclerView.Adapter<AdaptadorNegoci
         });
         DatabaseHandler db = new DatabaseHandler(context);
         Picasso.get().load(db.getImagen(""+producto.getIdNegocio()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(viewHolder.ivNegocioPerfil);
-
+        String servicio=null;
+        if (producto.getServicioDomicilio().equals("si")){
+            servicio = "Recibe en tu domicilio";
+        }else servicio ="Recoje en el negocio";
 //        viewHolder.ivNegocioPerfil.setImageBitmap(db.getimageID(""+producto.getIdNegocio()));///cornerImage.getRoundedCornerBitmap(originalBitmap,100));
         viewHolder.tvnegocio.setText("" + producto.getNombre());
-        viewHolder.tvnegociodatos.setText("Contacto:\n" + producto.getLada() + " " + producto.getTeléfono());
+        viewHolder.tvnegociodatos.setText(""+servicio+"\nContacto:\n+" + producto.getLada() + " " + producto.getTeléfono());
 
 
     }

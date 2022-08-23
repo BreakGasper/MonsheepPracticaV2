@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class TestNormalAdapter extends StaticPagerAdapter {
 
         try {
             DatabaseHandler db = new DatabaseHandler(context);
-            Picasso.get().load(db.getImagen(""+producto.getDato()+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(view);
+            Picasso.get().load(db.getImagen(""+producto.getDato()+".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(view);
 
             Bitmap originalBitmap = db.getimageID(producto.getDato());
            // view.setImageBitmap(originalBitmap);
@@ -96,7 +97,7 @@ public class TestNormalAdapter extends StaticPagerAdapter {
                 Snackbar.make(
                        view,
                         ""+producto.getOferta(),
-                        BaseTransientBottomBar.LENGTH_SHORT
+                        BaseTransientBottomBar.LENGTH_LONG
                 ).setBackgroundTint(Color.parseColor("#E7610F")).show();
             }
 

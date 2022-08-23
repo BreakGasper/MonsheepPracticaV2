@@ -235,7 +235,7 @@ public class EditarTabla {
             , String Municipio, String Estado, String Alias,
                                     String Lada, String Telefono, String tipoTelefono, String ApellidoPaterno
             , String ApellidoMaterno, String TipoCompra, String num_id
-            , String x, String descripcion, String correo) {
+            , String x, String descripcion, String correo,String servicioDomicilio ) {
 
         db = new DatabaseHandler(context);
         sqlite usuarios = new sqlite(context, "monsheep", null, 1);
@@ -259,6 +259,7 @@ public class EditarTabla {
         registro.put("Id_Foto", num_id.trim());
         registro.put("Correo", correo);
         registro.put("Descripcion", "" + descripcion);
+        registro.put("servicioDomicilio", "" + servicioDomicilio);
 
 
         if (isNetDisponible(context) == true && isOnlineNet() == true) {
@@ -272,7 +273,7 @@ public class EditarTabla {
                     + "&Municipio=" + Municipio + "&Estado=" + Estado
                     + "&Lada=" + Lada + "&Telefono=" + Telefono
                     + "&TipoTelefono=" + tipoTelefono + "&TipoCompra=" + TipoCompra + "&Id_Foto=" + num_id + "&Correo=" + correo
-                    + "&Descripcion=" + descripcion);
+                    + "&Descripcion=" + descripcion  + "&servicioDomicilio=" + servicioDomicilio);
             if (cantid == 1) {
 
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

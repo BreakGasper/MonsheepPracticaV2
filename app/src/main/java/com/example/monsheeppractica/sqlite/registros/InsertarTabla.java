@@ -135,7 +135,7 @@ public class InsertarTabla {
         ArrayList list = new ArrayList();
         list.add("idPromo");
         list.add("fecha");
-        list.add("hora");
+        list.add("Hora");
         list.add("oferta");
         list.add("status");
         list.add("dato");
@@ -406,7 +406,7 @@ public class InsertarTabla {
     public int RegistrarNegocio(Context context, int idNegocio, int idUser, String Nombre, String Calle, String Numero,
                                 String Interior, String Codigo_Postal, String Colonia, String Municipio, String Estado,
                                 String Lada, String Telefono, String tipoTelefono, String TipoCompra, String num_id,
-                                String x, String Contra, String Correo, String Descripcion, String idFotoNegocio) {
+                                String x, String Contra, String Correo, String Descripcion, String idFotoNegocio,String servicioDomicilio) {
 
         db = new DatabaseHandler(context);
         sqlite usuarios = new sqlite(context, "monsheep", null, 1);
@@ -432,7 +432,7 @@ public class InsertarTabla {
         registro.put("Contra", "" + Contra);
         registro.put("Correo", Correo);
         registro.put("Descripcion", "" + Descripcion);
-
+        registro.put("servicioDomicilio", servicioDomicilio);
 
         ArrayList list = new ArrayList();
         list.add("idNegocio");
@@ -454,7 +454,7 @@ public class InsertarTabla {
         list.add("Contra");
         list.add("Correo");
         list.add("Descripcion");
-
+        list.add("servicioDomicilio");
 
         ArrayList listdata = new ArrayList();
         listdata.add("" + idNegocio);
@@ -476,7 +476,7 @@ public class InsertarTabla {
         listdata.add(Contra);
         listdata.add(Correo);
         listdata.add(Descripcion);
-
+        listdata.add(servicioDomicilio);
 
 
         if (isNetDisponible(context) == true && isOnlineNet() == true) {

@@ -219,8 +219,8 @@ public class MainActivityLogin extends AppCompatActivity {
         btnRecuperar.setOnClickListener(view -> {
             if (!etCel.getText().toString().isEmpty() && !etLada.getText().toString().isEmpty()) {
                 btnRecuperar.setEnabled(false);
-                etCode.setVisibility(View.VISIBLE);
-                btnConfirm.setVisibility(View.VISIBLE);
+              //  etCode.setVisibility(View.VISIBLE);
+              //  btnConfirm.setVisibility(View.VISIBLE);
                 openWhatsApp(etLada.getText().toString().trim(), etCel.getText().toString().trim());
             } else {
                 Toast.makeText(this, "Debes Llenar todos los campos", Toast.LENGTH_SHORT).show();
@@ -390,13 +390,13 @@ public class MainActivityLogin extends AppCompatActivity {
     }
 
     private void Correo3(String contra, String correo) {
-        Toast.makeText(this, ""+contra+correo, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, ""+contra+correo, Toast.LENGTH_SHORT).show();
         String sAsunto = "Recuperar Contraseña";
         String sMensaje = "Tu contraseña de MoonSheep es: " + contra + "\nSi no fuiste tu quien realizo esta consulta, Ignora este mensaje";
         String sEmail = "backgaspar@gmail.com";
         String sPassword = "xnwmglhcjbjjqdaz";
 
-
+        Toast.makeText(this, "Se envio tu contraseña a tu correo registrado en la app", Toast.LENGTH_SHORT).show();
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
@@ -457,8 +457,8 @@ public class MainActivityLogin extends AppCompatActivity {
             if (s.equals("Success")) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivityLogin.this);
                 builder.setCancelable(false);
-                builder.setTitle(Html.fromHtml("<font color='#509324'> Success</font>"));
-                builder.setMessage("Mail send successfully");
+                builder.setTitle(Html.fromHtml("<font color='#509324'>Envio Exitoso</font>"));
+                builder.setMessage("Contraseña enviada a tu correo registrado en la app");
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

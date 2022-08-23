@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -44,6 +45,7 @@ import com.example.monsheeppractica.sqlite.registros.EditarTabla;
 import com.example.monsheeppractica.sqlite.registros.InsertarTabla;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -65,12 +67,13 @@ public class MainActivityAjustes extends AppCompatActivity {
             etAlias, etLada, etTelefono, etApellidoPaterno,
             etApellidoMaterno, etContra, etRepContra, etDescripcion, etCorreo, etCorreoUser;
     TextInputLayout tilAMaterno, tilAPaterno, tilAlias, tilDescripcion, tilCorreo;
+    CheckBox cbEdit;
     Spinner spTipoTelefono, spMunicipio;
     Button btnGuardar;
     ImageView iv_foto;
     String num_id = "", x, edit = "user";
     DatabaseHandler db;
-    String tipoTelefono = "Fijo", Municipio = "San Martín Hidalgo";
+    String tipoTelefono = "Fijo", Municipio = "San Martín Hidalgo", servicioDomicilio = "no";
     String[] tipoArrayTelefono = {"Fijo", "Celular"};
     String[] tipoArrayCompra = {"Menudeo", "Mayoreo"};
     String[] municipio = {"San Martín Hidalgo", "Cocula", "Ameca", "Juchitlán", "Acatic", "Acatlán de Juárez", "Ahualulco de Mercado", "Amacueca", "Amatitán", "San Juanito de Escobedo", "Arandas"
@@ -130,6 +133,7 @@ public class MainActivityAjustes extends AppCompatActivity {
         spTipoTelefono = (Spinner) findViewById(R.id.spTipoTelefonoEdit);
         etCorreo = findViewById(R.id.etCorreoEdit);
         etCorreoUser = findViewById(R.id.etCorreo);
+        cbEdit = findViewById(R.id.cbEdit);
         iv_foto = (ImageView) findViewById(R.id.ivFotoEdit);
         tilAlias = findViewById(R.id.tILA);
         tilCorreo = findViewById(R.id.tILCorreo);
@@ -144,18 +148,18 @@ public class MainActivityAjustes extends AppCompatActivity {
 
         if (!idNegocio.equals("0")) {
             ivTienda.setVisibility(View.VISIBLE);
-            Picasso.get().load(db.getImagen(""+idNegocio+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(ivTienda);
+            Picasso.get().load(db.getImagen("" + idNegocio + ".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(ivTienda);
 
 //            ivTienda.setImageBitmap(db.getimageID("" + idNegocio));
         }//else ivTienda.setImageDrawable(getResources().getDrawable(R.drawable.mcolor));
-        Picasso.get().load(db.getImagen(""+idUser+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(ivUser);
+        Picasso.get().load(db.getImagen("" + idUser + ".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(ivUser);
 
 //        ivUser.setImageBitmap(db.getimageID("" + idUser));
         //Toast.makeText(this, ""+idNegocio, Toast.LENGTH_SHORT).show();
         ivTienda.setOnClickListener(view -> {
-            if (!idNegocio.equals("0")){
+            if (!idNegocio.equals("0")) {
                 LlenarDatosNegocio();
-            }else Toast.makeText(this, "Registra tu negocio", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(this, "Registra tu negocio", Toast.LENGTH_SHORT).show();
 
         });
 
@@ -203,6 +207,17 @@ public class MainActivityAjustes extends AppCompatActivity {
         LlenarDatosUSer();
     }
 
+    public void CheckBoxServicio(View view) {
+
+        if(cbEdit.isChecked()==true){
+            servicioDomicilio = "si";
+        }else {
+            servicioDomicilio = "no";
+        }
+
+
+    }
+
     public void ObtenerDatos_box() {
 
         Nombre = etNombre.getText().toString();
@@ -242,10 +257,10 @@ public class MainActivityAjustes extends AppCompatActivity {
                 if (pass.trim().equals(etPass2.getText().toString().trim())) {
                     EditarTabla editarTabla = new EditarTabla();
                     if (edit.equals("user")) {
-                        editarTabla.EditarPerfil(this, Integer.parseInt(idUser), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x,etCorreoUser.getText().toString());
+                        editarTabla.EditarPerfil(this, Integer.parseInt(idUser), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x, etCorreoUser.getText().toString());
 
                     } else if (edit.equals("negocio")) {
-                        editarTabla.EditarPerfilNegocio(this, Integer.parseInt(idNegocio), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x, descrip, correo);
+                        editarTabla.EditarPerfilNegocio(this, Integer.parseInt(idNegocio), Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio, Estado, Alias, Lada, Teléfono, tipoTelefono, ApellidoPaterno, ApellidoMaterno, TipoCompra, num_id, x, descrip, correo, servicioDomicilio);
 
                     }
                     Intent intent = new Intent(this, MainActivityLogin.class);
@@ -253,7 +268,7 @@ public class MainActivityAjustes extends AppCompatActivity {
                     finish();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else Toast.makeText(this, "Contraseña Incorrecta", Toast.LENGTH_SHORT).show();
-            }else etPass2.setError("No debe estar vacio");
+            } else etPass2.setError("No debe estar vacio");
         });
 
         alerta.setNegativeButton("No", (dialogInterface, i) -> {
@@ -269,7 +284,7 @@ public class MainActivityAjustes extends AppCompatActivity {
     void LlenarDatosUSer() {
         Informacion = new EditText[]{
                 etNombre, etCalle, etNumero, etInterior, etCp, etColonia, etEstado
-                , etAlias, etLada, etTelefono, etApellidoPaterno, etApellidoMaterno,etCorreoUser};
+                , etAlias, etLada, etTelefono, etApellidoPaterno, etApellidoMaterno, etCorreoUser};
         edit = "user";
         clientesArrayList.clear();
         ConsultarTabla consultarTabla = new ConsultarTabla(this);
@@ -287,15 +302,16 @@ public class MainActivityAjustes extends AppCompatActivity {
         etAlias.setText("" + c.getAlias());
         etLada.setText("" + c.getLada());
         etTelefono.setText("" + c.getTeléfono());
-        etCorreoUser.setText(""+c.getCorreo());
+        etCorreoUser.setText("" + c.getCorreo());
         etTelefono.setEnabled(false);
         etLada.setEnabled(false);
         tilDescripcion.setVisibility(View.GONE);
         tilCorreo.setVisibility(View.GONE);
+        cbEdit.setVisibility(View.GONE);
         tilAMaterno.setVisibility(View.VISIBLE);
         tilAPaterno.setVisibility(View.VISIBLE);
         tilAlias.setVisibility(View.VISIBLE);
-        Picasso.get().load(db.getImagen(""+idUser+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(iv_foto);
+        Picasso.get().load(db.getImagen("" + idUser + ".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(iv_foto);
 
 //        iv_foto.setImageBitmap(db.getimageID("" + idUser));
         ivUser.setBackground(getResources().getDrawable(R.drawable.degradado));
@@ -439,12 +455,19 @@ public class MainActivityAjustes extends AppCompatActivity {
         etTelefono.setText("" + c.getTeléfono());
         etDescripcion.setText("" + c.getDescripcion());
         etCorreo.setText("" + c.getCorreo());
+        if (c.getServicioDomicilio().equals("si")){
+            cbEdit.setChecked(true);
+            servicioDomicilio =c.getServicioDomicilio();
+        }
+        //Toast.makeText(this, ""+c.getServicioDomicilio(), Toast.LENGTH_SHORT).show();
         tilAMaterno.setVisibility(View.GONE);
         tilAPaterno.setVisibility(View.GONE);
         tilAlias.setVisibility(View.GONE);
+        cbEdit.setVisibility(View.VISIBLE);
         tilCorreo.setVisibility(View.VISIBLE);
         tilDescripcion.setVisibility(View.VISIBLE);
-        Picasso.get().load(db.getImagen(""+idNegocio+".jpg")).memoryPolicy(MemoryPolicy.NO_CACHE).into(iv_foto);
+        Picasso.get().load(db.getImagen("" + idNegocio + ".jpg")).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(iv_foto);
+
 
 //        iv_foto.setImageBitmap(db.getimageID("" + idNegocio));
         ivTienda.setBackground(getResources().getDrawable(R.drawable.degradado));
@@ -494,7 +517,7 @@ public class MainActivityAjustes extends AppCompatActivity {
 
 
                     iv_foto.setImageURI(result.getUri());
-                    x =  ""+ result.getUri();//getPath(result.getUri());
+                    x = "" + result.getUri();//getPath(result.getUri());
                     num_id = "" + (int) (Math.random() * 10000 + 1 * 3 + 15);
                     num_id = num_id + (int) (Math.random() * 500);
 

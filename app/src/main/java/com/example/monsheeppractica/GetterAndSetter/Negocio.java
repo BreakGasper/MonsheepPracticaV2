@@ -4,9 +4,9 @@ public class Negocio {
     int idNegocio,idUser;
     String Nombre,TipoCompra,Calle,Numero,Interior,Codigo_Postal,
             Colonia,Municipio,Estado,Lada,Teléfono,status,TipoTelefono
-            ,Id_Foto,Contra,Correo,Descripcion;
+            ,Id_Foto,Contra,Correo,Descripcion,servicioDomicilio;
 
-    public Negocio(int idNegocio, int idUser, String nombre, String tipoCompra, String calle, String numero, String interior, String codigo_Postal, String colonia, String municipio, String estado, String lada, String teléfono, String status, String tipoTelefono, String id_Foto, String contra, String correo, String descripcion) {
+    public Negocio(int idNegocio, int idUser, String nombre, String tipoCompra, String calle, String numero, String interior, String codigo_Postal, String colonia, String municipio, String estado, String lada, String teléfono, String status, String tipoTelefono, String id_Foto, String contra, String correo, String descripcion,String servicioDomicilio) {
         this.idNegocio = idNegocio;
         this.idUser = idUser;
         Nombre = nombre;
@@ -26,6 +26,7 @@ public class Negocio {
         Contra = contra;
         Correo = correo;
         Descripcion = descripcion;
+        this.servicioDomicilio = servicioDomicilio;
     }
 
     public int getIdNegocio() {
@@ -178,5 +179,13 @@ public class Negocio {
 
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
+    }
+
+    public String getServicioDomicilio() {
+        return servicioDomicilio;
+    }
+
+    public void setServicioDomicilio(String servicioDomicilio) {
+        this.servicioDomicilio = servicioDomicilio;
     }
 }

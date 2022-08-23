@@ -28,7 +28,7 @@
             <com.jude.rollviewpager.RollPagerView
                 android:id='@+id/roll_view_pager'
                 android:layout_width="300dp"
-                android:layout_height="175dp"
+                android:layout_height="250dp"
                 android:layout_margin="7dp"
                 app:rollviewpager_play_delay='3000' />
         </LinearLayout>
@@ -56,4 +56,22 @@
 
     </LinearLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="261dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="621dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/click" />
 </RelativeLayout>

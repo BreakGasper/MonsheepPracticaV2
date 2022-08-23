@@ -1,11 +1,13 @@
 package com.example.monsheeppractica.Activitys;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -154,13 +156,27 @@ public class MainActivityTicket extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.itemcontinuar) {
-            FechaYHoraActual();
-            EditarAlmacen();
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("art", "0").commit();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.right_in, R.anim.right_out);
+            new AlertDialog.Builder(this)
+                    .setTitle("¡Atencion!")
+                    .setMessage("Realiza tus pago directo en la tienda o con el repartidor al recibir tus productos")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton("Entiendo", (dialog, which) -> {
+                        FechaYHoraActual();
+                        EditarAlmacen();
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("art", "0").commit();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.right_in, R.anim.right_out);
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
 
         }
 

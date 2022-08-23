@@ -1,8 +1,13 @@
 package com.example.monsheeppractica;
 
+import static com.example.monsheeppractica.WebService.wsDataDownload.NombreTablas;
+import static com.example.monsheeppractica.mytools.Network.isNetDisponible;
+import static com.example.monsheeppractica.mytools.Network.isOnlineNet;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,6 +28,7 @@ import com.example.monsheeppractica.Activitys.MainActivityRegistroProductos;
 import com.example.monsheeppractica.Activitys.MainActivitySuperUser;
 
 import com.example.monsheeppractica.GetterAndSetter.Carrito;
+import com.example.monsheeppractica.WebService.wsDataDownload;
 import com.example.monsheeppractica.adaptadores.ViewPagerAdapter;
 import com.example.monsheeppractica.databinding.ActivityMainBinding;
 import com.example.monsheeppractica.fragments.HomeFragment;
@@ -31,6 +37,7 @@ import com.example.monsheeppractica.fragments.PerfilFragment;
 import com.example.monsheeppractica.mytools.ConversoresAll;
 import com.example.monsheeppractica.fragments.DashboardFragment;
 import com.example.monsheeppractica.sqlite.registros.ConsultarTabla;
+import com.example.monsheeppractica.sqlite.sqlite;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -159,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         // menuGestos();
        menu_bottom();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

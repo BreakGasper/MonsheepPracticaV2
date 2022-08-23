@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -46,7 +47,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
     EditText etNombre, etCalle, etNumero, etInterior,
             etCp, etColonia, etEstado,
             etLada, etTelefono, etContra, etRepContra, etDescripcion, etCorreoNegocio;
-
+    CheckBox cbServicio;
     Button btnGuardar;
     String[] tipoArrayTelefono = {"Fijo", "Celular"};
     String[] tipoArrayCompra = {"Menudeo", "Mayoreo"};
@@ -56,7 +57,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
     String idClienteExtra, editar_extra, tipoTelefonoExtra, NombreExtra, CalleExtra, NumeroExtra, InteriorExtra, CodigoPostalExtra, ColoniaExtra, MunicipioExtra, EstadoExtra, LadaExtra, TeléfonoExtra, TipoCompraExtra, Id_Foto_extra;
 
     String Nombre, Calle, Numero, Interior, Codigo_Postal, Colonia, Municipio = "San Martín Hidalgo",
-            Estado, Alias, Lada, Teléfono, TipoCompra = "basico", ApellidoPaterno, ApellidoMaterno, Contra;
+            Estado, Alias, Lada, Teléfono, TipoCompra = "basico", ApellidoPaterno, ApellidoMaterno, Contra,servicioDomicilio="no";
 
     String tipoTelefono = "Fijo";
     int idCliente;
@@ -121,7 +122,7 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
             spMunicipio = (Spinner) findViewById(R.id.spMunicipioNegocio);
             spTipoTelefono = (Spinner) findViewById(R.id.spTipoTelefonoNegocio);
             iv_foto = (ImageView) findViewById(R.id.ivFotoNegocio);
-
+            cbServicio =findViewById(R.id.cbServices);
             //Referencia a la tabla imagenes categorias
             db = new DatabaseHandler(this);
 
@@ -420,10 +421,14 @@ public class MainActivityRegistroNegocio extends AppCompatActivity {
         int id = (int) (Math.random() * 10000 + 1 * 3 + 15);
         if (x != null && !x.isEmpty()) {
 
+            if (cbServicio.isChecked() == true){
+                servicioDomicilio ="si";
+            }
+
             InsertarTabla insert = new InsertarTabla();
             int idEditNego = insert.RegistrarNegocio(this, id, Integer.parseInt(idUser), Nombre, Calle, Numero, Interior, Codigo_Postal,
                     Colonia, Municipio, Estado, Lada, Teléfono, tipoTelefono,
-                    TipoCompra, num_id, x, Contra, etCorreoNegocio.getText().toString().trim(), etDescripcion.getText().toString(), idFotoNegocio);
+                    TipoCompra, num_id, x, Contra, etCorreoNegocio.getText().toString().trim(), etDescripcion.getText().toString(), idFotoNegocio,servicioDomicilio);
 
             EditarTabla editarTabla = new EditarTabla();
             editarTabla.EditarUser(this, Integer.parseInt(idUser), String.valueOf(idEditNego), TipoCompra);

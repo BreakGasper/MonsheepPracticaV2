@@ -36,7 +36,7 @@ public class sqlite extends SQLiteOpenHelper {
             " TipoCompra text, Calle text, Numero text, Interior text, Codigo_Postal text," +
             "Colonia text,Municipio text" +
             ", Estado text, Lada text, Telefono text, status text, TipoTelefono text ," +
-            " Id_Foto text,Contra text,Correo text,Descripcion text,id int primary key)";
+            " Id_Foto text,Contra text,Correo text,Descripcion text,servicioDomicilio text, id int primary key)";
 
     public String Carrito = "CREATE TABLE carrito (idticket int  , idUser text, Productos text," +
             "cantidad text,precio text,idproveedor text, status text,idProducto text, fecha text, hora text,cantidadDisponible text,solicitud text,idDomicilio text,Ticket text,id int  primary key)";

@@ -180,11 +180,10 @@ public class MonsheepFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Esto se ejecuta cada vez que se realiza el gesto
-                DescargarCatalogo();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-//                listaproducto();
+
+              DescargarCatalogo();
+
+     //           listaproducto();
 //                RollPage();
                 swipeRefreshLayout.setRefreshing(false);
 
@@ -194,9 +193,12 @@ public class MonsheepFragment extends Fragment {
     }
 
     public void DescargarCatalogo() {
-        if (isNetDisponible(getActivity())== true && isOnlineNet()==true){
+        if (isNetDisponible(getActivity()) == true && isOnlineNet() == true) {
+            Toast.makeText(getActivity(), "Catalogo Actualizado", Toast.LENGTH_SHORT).show();
+            int count = 0;
 
             for (int i = 0; i < NombreTablas().size(); i++) {
+                count++;
 
                 sqlite admin = new sqlite(getActivity(), "monsheep", null, 1);
                 SQLiteDatabase BaseDeDatos = admin.getWritableDatabase();
@@ -205,8 +207,15 @@ public class MonsheepFragment extends Fragment {
                 download.cargarWebService(NombreTablas().get(i).toString());
 
             }
+//            Intent intent = new Intent(getActivity(), MainActivity.class);
+//            startActivity(intent);
+//            getActivity().finish();
 
-        }else{ Toast.makeText(getActivity(), "Sin Red", Toast.LENGTH_SHORT).show();}
+
+        } else {
+            Toast.makeText(getActivity(), "Sin Red", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
     public void Modificar_Eliminacion() {

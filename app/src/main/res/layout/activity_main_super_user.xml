@@ -44,7 +44,7 @@
                 android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/marcolistview"
-                app:srcCompat="@drawable/tiendaajuste" />
+                app:srcCompat="@drawable/upload" />
 
             <ImageView
                 android:id="@+id/ivRegister"
@@ -52,7 +52,7 @@
                 android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/marcolistview"
-                app:srcCompat="@drawable/ic_baseline_app_registration_24" />
+                app:srcCompat="@drawable/menu" />
         </LinearLayout>
 
         <EditText
